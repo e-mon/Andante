@@ -48,8 +48,11 @@ class PlayRouteManager{
             var counter = 1
             for playroute in playroutes{
                 
-                println("playroute \(counter) songName = \(playroute.songName)")
+                println("playroute \(counter) songName = \(playroute.userName)")
                 println("playroute \(counter) region = \(playroute.region)")
+                println("playroute \(counter) songName = \(playroute.songName)")
+                println("playroute \(counter) songName = \(playroute.artistName)")
+                println("playroute \(counter) songName = \(playroute.timestamp)")
                 
                 counter++
             }
@@ -71,9 +74,6 @@ class PlayRouteManager{
         let playroutes = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError) as [PlayRoute!]
         
         if playroutes.count>0 {
-            for pr in playroutes{
-                println(pr.songName)
-            }
             return playroutes
         }
         return nil
@@ -88,12 +88,10 @@ class PlayRouteManager{
         playroute.timestamp = NSDate()
         
         var savingError: NSError?
-        if managedObjectContext!.save(&savingError){
-            println("Successfully saved the new songName")
-        }else{
+        if !managedObjectContext!.save(&savingError){
             //FIXME: エラーハンドリングができてないので要修正
             if let error = savingError{
-                println("Failed to save the new person. Error = \(error)")
+                println("Failed to save the new playroute. Error = \(error)")
             }
             return false
         }
