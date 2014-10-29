@@ -13,43 +13,43 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
     
-    func setLocationManager(){
-        locationManager.delegate = self
-        //    locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-    }
-    
-    // Rec, Play
     func startUpdateLocation() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
     }
-    // Off
+    
     func stopUpdateLocation() {
         locationManager.stopUpdatingLocation()
     }
     
-    
-    // automatically called updating location
+    //　automatically called updating location
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         self.printLatitudeLongitude(manager)
-        // music song change notification catch
+        // music song change notification catch will be below
+        // saveIntoDB(manager)
     }
     
-    
-    // temporary method -> print, latitude, longitude, time, StandardTime
+    //　temporary method -> print, latitude, longitude, time, StandardTime
     func printLatitudeLongitude(manager: CLLocationManager) {
         println(manager.location)
         println(manager.location.coordinate.latitude)
         println(manager.location.coordinate.longitude)
     }
 
-//    save [latitude, longitude, time, songName(songID)] into DB, when SONG CHANGE
+    //　save [latitude, longitude, time, songName, artistName, userName] into DB, when SONG CHANGE
     func saveIntoDB(manager: CLLocationManager) {
-        var latitude = manager.location.coordinate.latitude
-        var longitude = manager.location.coordinate.longitude
         var timestamp = manager.location.timestamp
-//        manager.location.speed
-//        var newSong
+        
+        let prm = PlayRouteManager()
+        
+        let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
+        let region : CLRegion = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
+        
+        prm.setRegion(region1, songName: "testSong1", artistName: "artist1", userName: "user1")
+        
+        for pr in prm{
+            println(pr.songName) // -> testSong
+        }
     }
-    
 }
