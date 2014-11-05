@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		325AC2A51A00C9F20033CCE9 /* BackgroundRecController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325AC2A41A00C9F20033CCE9 /* BackgroundRecController.swift */; };
 		842F3AA519F7B062006F2AB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F3AA419F7B062006F2AB4 /* AppDelegate.swift */; };
 		842F3AA719F7B062006F2AB4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F3AA619F7B062006F2AB4 /* ViewController.swift */; };
 		842F3AAA19F7B062006F2AB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 842F3AA819F7B062006F2AB4 /* Main.storyboard */; };
@@ -65,6 +66,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		325AC2A41A00C9F20033CCE9 /* BackgroundRecController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundRecController.swift; sourceTree = "<group>"; };
 		842F3A9F19F7B062006F2AB4 /* Andante.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Andante.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		842F3AA319F7B062006F2AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842F3AA419F7B062006F2AB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				842F3ACF19F7B119006F2AB4 /* TodayViewController.swift */,
 				842F3AD119F7B119006F2AB4 /* MainInterface.storyboard */,
 				842F3ACD19F7B119006F2AB4 /* Supporting Files */,
+				325AC2A41A00C9F20033CCE9 /* BackgroundRecController.swift */,
 			);
 			path = AndanteWidget;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				325AC2A51A00C9F20033CCE9 /* BackgroundRecController.swift in Sources */,
 				842F3AD019F7B119006F2AB4 /* TodayViewController.swift in Sources */,
 				84816C1019FF79D600A01B80 /* PlayRouteManager.swift in Sources */,
 				84816C0D19FF79C500A01B80 /* Model.xcdatamodeld in Sources */,
