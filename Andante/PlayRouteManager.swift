@@ -2,7 +2,7 @@
 //  PlayRouteManager.swift
 //  Andante
 //
-//  Created by admin on 10/28/14.
+//  Created by emon on 10/28/14.
 //  Copyright (c) 2014 sadp. All rights reserved.
 //
 
@@ -12,7 +12,7 @@ import CoreLocation
 
 class PlayRouteManager{
     
-    //debugWrite
+    // debugWrite
     func _writeCoreData(region : CLRegion, songName : String, artistName : String, userName : String)->Bool{
         
         let playroute = NSEntityDescription.insertNewObjectForEntityForName("PlayRoute", inManagedObjectContext: managedObjectContext!) as PlayRoute
@@ -33,7 +33,7 @@ class PlayRouteManager{
         return true
     }
     
-    //debugRead
+    // debugRead
     func _readCoreData() -> Bool{
         let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
         var requestError: NSError?
@@ -89,7 +89,7 @@ class PlayRouteManager{
         
         var savingError: NSError?
         if !managedObjectContext!.save(&savingError){
-            //FIXME: エラーハンドリングができてないので要修正
+            // FIXME: エラーハンドリングができてないので要修正
             if let error = savingError{
                 println("Failed to save the new playroute. Error = \(error)")
             }
