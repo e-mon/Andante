@@ -12,7 +12,7 @@ import MediaPlayer
 
 class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
     var locationManager: CLLocationManager!
-    var systemMusicPlayer: MPMusicPlayerController?
+    var systemMusicPlayer: MPMusicPlayerController!
 
     override init() {
         super.init()
@@ -36,8 +36,8 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
 
     func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
         let mediaItemCollection = getMediaItemCollectionByRegion(region)
-        systemMusicPlayer?.setQueueWithItemCollection(mediaItemCollection)
-        systemMusicPlayer?.play()
+        systemMusicPlayer.setQueueWithItemCollection(mediaItemCollection)
+        systemMusicPlayer.play()
     }
 
     func getMediaItemCollectionByRegion(region: CLRegion) -> MPMediaItemCollection {
