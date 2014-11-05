@@ -18,6 +18,12 @@
 		842F3AD219F7B119006F2AB4 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 842F3AD119F7B119006F2AB4 /* MainInterface.storyboard */; };
 		842F3AD519F7B119006F2AB4 /* AndanteWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 842F3AC819F7B119006F2AB4 /* AndanteWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8454975C19F7BA7600AF7530 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8454972A19F7B8B700AF7530 /* MapKit.framework */; };
+		84816C0C19FF79C500A01B80 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84816C0A19FF79C500A01B80 /* Model.xcdatamodeld */; };
+		84816C0D19FF79C500A01B80 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84816C0A19FF79C500A01B80 /* Model.xcdatamodeld */; };
+		84816C0F19FF79D600A01B80 /* PlayRouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C0E19FF79D600A01B80 /* PlayRouteManager.swift */; };
+		84816C1019FF79D600A01B80 /* PlayRouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C0E19FF79D600A01B80 /* PlayRouteManager.swift */; };
+		84816C1419FF7A7F00A01B80 /* PlayRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C1319FF7A7F00A01B80 /* PlayRoute.swift */; };
+		84816C1519FF7A7F00A01B80 /* PlayRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C1319FF7A7F00A01B80 /* PlayRoute.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +81,11 @@
 		842F3ACF19F7B119006F2AB4 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		842F3AD119F7B119006F2AB4 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		8454972A19F7B8B700AF7530 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		84816C0B19FF79C500A01B80 /* PlayRoute.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PlayRoute.xcdatamodel; sourceTree = "<group>"; };
+		84816C0E19FF79D600A01B80 /* PlayRouteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRouteManager.swift; sourceTree = "<group>"; };
+		84816C1119FF7A3500A01B80 /* AndanteWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AndanteWidget.entitlements; sourceTree = "<group>"; };
+		84816C1219FF7A5100A01B80 /* Andante.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Andante.entitlements; sourceTree = "<group>"; };
+		84816C1319FF7A7F00A01B80 /* PlayRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRoute.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,12 +139,16 @@
 		842F3AA119F7B062006F2AB4 /* Andante */ = {
 			isa = PBXGroup;
 			children = (
+				84816C1219FF7A5100A01B80 /* Andante.entitlements */,
 				842F3AA419F7B062006F2AB4 /* AppDelegate.swift */,
 				842F3AA619F7B062006F2AB4 /* ViewController.swift */,
+				84816C0A19FF79C500A01B80 /* Model.xcdatamodeld */,
+				84816C1319FF7A7F00A01B80 /* PlayRoute.swift */,
 				842F3AA819F7B062006F2AB4 /* Main.storyboard */,
 				842F3AAB19F7B062006F2AB4 /* Images.xcassets */,
 				842F3AAD19F7B062006F2AB4 /* LaunchScreen.xib */,
 				842F3AA219F7B062006F2AB4 /* Supporting Files */,
+				84816C0E19FF79D600A01B80 /* PlayRouteManager.swift */,
 			);
 			path = Andante;
 			sourceTree = "<group>";
@@ -175,6 +190,7 @@
 		842F3ACC19F7B119006F2AB4 /* AndanteWidget */ = {
 			isa = PBXGroup;
 			children = (
+				84816C1119FF7A3500A01B80 /* AndanteWidget.entitlements */,
 				842F3ACF19F7B119006F2AB4 /* TodayViewController.swift */,
 				842F3AD119F7B119006F2AB4 /* MainInterface.storyboard */,
 				842F3ACD19F7B119006F2AB4 /* Supporting Files */,
@@ -259,6 +275,12 @@
 				TargetAttributes = {
 					842F3A9E19F7B062006F2AB4 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = R32GV6S8RM;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					842F3AB319F7B062006F2AB4 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -266,6 +288,12 @@
 					};
 					842F3AC719F7B119006F2AB4 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = R32GV6S8RM;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -323,7 +351,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F3AA719F7B062006F2AB4 /* ViewController.swift in Sources */,
+				84816C0F19FF79D600A01B80 /* PlayRouteManager.swift in Sources */,
+				84816C1419FF7A7F00A01B80 /* PlayRoute.swift in Sources */,
 				842F3AA519F7B062006F2AB4 /* AppDelegate.swift in Sources */,
+				84816C0C19FF79C500A01B80 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +371,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F3AD019F7B119006F2AB4 /* TodayViewController.swift in Sources */,
+				84816C1019FF79D600A01B80 /* PlayRouteManager.swift in Sources */,
+				84816C0D19FF79C500A01B80 /* Model.xcdatamodeld in Sources */,
+				84816C1519FF7A7F00A01B80 /* PlayRoute.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,9 +498,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Andante/Andante.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Andante/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -474,9 +512,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Andante/Andante.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Andante/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -517,6 +559,9 @@
 		842F3AD919F7B119006F2AB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AndanteWidget/AndanteWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -524,6 +569,7 @@
 				INFOPLIST_FILE = AndanteWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -531,9 +577,13 @@
 		842F3ADA19F7B119006F2AB4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AndanteWidget/AndanteWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = AndanteWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -578,6 +628,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		84816C0A19FF79C500A01B80 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				84816C0B19FF79C500A01B80 /* PlayRoute.xcdatamodel */,
+			);
+			currentVersion = 84816C0B19FF79C500A01B80 /* PlayRoute.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 842F3A9719F7B061006F2AB4 /* Project object */;
 }
