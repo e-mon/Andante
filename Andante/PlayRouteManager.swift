@@ -62,21 +62,35 @@ class PlayRouteManager{
         
     }
     
-    internal func getMediaItem(region : CLRegion) -> MPMediaItem?{
-        let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
-        var requestError: NSError?
+    internal func getAllRegion() -> [CLRegion]?{
+        let playroutes = fetchRequestToPlayRoute(nil)
         
-        fetchRequest.returnsObjectsAsFaults = false;
-        fetchRequest.predicate = NSPredicate(format: "region = %@",region)
-        let playroutes = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError) as [PlayRoute!]
+        var regions : [CLRegion] = []
         
-        var mediaItems : [MPMediaItem] = []
-        
-        if playroutes.count>0 {
-            // FIXME: 1件以上存在することは仕様上ありえないが，一応先頭要素を返す．煮詰める必要アリ
-            return playroutes[0].media
+        if let unwrapped : [PlayRoute] = playroutes {
+            for pr in unwrapped{
+                regions.append(pr.region)
+            }
+            return regions
+        }else{
+            return nil
         }
-        return nil
+    }
+    
+    internal func getPlayRoutes()->[PlayRoute]?{
+        return fetchRequestToPlayRoute(nil)
+    }
+    
+    internal func getMediaPlayItem(region : CLRegion) -> MPMediaItem?{
+        
+        let playroutes = fetchRequestToPlayRoute(NSPredicate(format: "region = %@",region))
+        
+        if let unwrapped : [PlayRoute] = playroutes {
+            // FIXME: 1件以上存在することは仕様上ありえないが，一応先頭要素を返す．煮詰める必要アリ
+            return unwrapped[0].media
+        }else{
+            return nil
+        }
     }
     
     internal func setPlayRoute(region : CLRegion, media : MPMediaItem, lat : Double, lng : Double , radius : Double,  userName : String) -> Bool{
@@ -100,6 +114,23 @@ class PlayRouteManager{
         return true
     }
     
+    private func fetchRequestToPlayRoute(predicate : NSPredicate?)->[PlayRoute]?{
+        let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
+        var requestError: NSError?
+        
+        fetchRequest.returnsObjectsAsFaults = false;
+        fetchRequest.predicate = predicate?
+        
+        let playroutes = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError) as [PlayRoute]?
+       
+        if let unwrapped : [PlayRoute] = playroutes {
+            return playroutes
+        }else{
+            return nil
+        }
+        
+    }
+
     // MARK: - Core Data stack
 
     private lazy var applicationDocumentsDirectory: NSURL = {
