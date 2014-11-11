@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import CoreLocation
+import MediaPlayer
 
 class PlayRouteManager{
     
@@ -16,8 +17,6 @@ class PlayRouteManager{
     func _writeCoreData(region : CLRegion, songName : String, artistName : String, userName : String)->Bool{
         
         let playroute = NSEntityDescription.insertNewObjectForEntityForName("PlayRoute", inManagedObjectContext: managedObjectContext!) as PlayRoute
-        playroute.songName = songName
-        playroute.artistName = artistName
         playroute.userName = userName
         playroute.region = region
         playroute.timestamp = NSDate()
@@ -50,8 +49,6 @@ class PlayRouteManager{
                 
                 println("playroute \(counter) songName = \(playroute.userName)")
                 println("playroute \(counter) region = \(playroute.region)")
-                println("playroute \(counter) songName = \(playroute.songName)")
-                println("playroute \(counter) songName = \(playroute.artistName)")
                 println("playroute \(counter) songName = \(playroute.timestamp)")
                 
                 counter++
@@ -65,7 +62,7 @@ class PlayRouteManager{
         
     }
     
-    internal func getSong(region : CLRegion) -> [PlayRoute!]?{
+    internal func getMediaItem(region : CLRegion) -> MPMediaItem?{
         let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
         var requestError: NSError?
         
@@ -73,16 +70,21 @@ class PlayRouteManager{
         fetchRequest.predicate = NSPredicate(format: "region = %@",region)
         let playroutes = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError) as [PlayRoute!]
         
+        var mediaItems : [MPMediaItem] = []
+        
         if playroutes.count>0 {
-            return playroutes
+            // FIXME: 1件以上存在することは仕様上ありえないが，一応先頭要素を返す．煮詰める必要アリ
+            return playroutes[0].media
         }
         return nil
     }
     
-    internal func setRegion(region : CLRegion, songName : String, artistName : String, userName : String) -> Bool{
+    internal func setPlayRoute(region : CLRegion, media : MPMediaItem, lat : Double, lng : Double , radius : Double,  userName : String) -> Bool{
         let playroute = NSEntityDescription.insertNewObjectForEntityForName("PlayRoute", inManagedObjectContext: managedObjectContext!) as PlayRoute
-        playroute.songName = songName
-        playroute.artistName = artistName
+        playroute.media = media
+        playroute.lat = lat
+        playroute.lng = lng
+        playroute.radius = radius
         playroute.userName = userName
         playroute.region = region
         playroute.timestamp = NSDate()
@@ -97,7 +99,7 @@ class PlayRouteManager{
         }
         return true
     }
-
+    
     // MARK: - Core Data stack
 
     private lazy var applicationDocumentsDirectory: NSURL = {
