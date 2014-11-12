@@ -25,6 +25,12 @@
 		84816C1019FF79D600A01B80 /* PlayRouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C0E19FF79D600A01B80 /* PlayRouteManager.swift */; };
 		84816C1419FF7A7F00A01B80 /* PlayRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C1319FF7A7F00A01B80 /* PlayRoute.swift */; };
 		84816C1519FF7A7F00A01B80 /* PlayRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C1319FF7A7F00A01B80 /* PlayRoute.swift */; };
+		E24CDDEE1A134F8200A2EF6E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDED1A134F8200A2EF6E /* CoreData.framework */; };
+		E24CDDF01A134F8C00A2EF6E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDEF1A134F8C00A2EF6E /* CoreLocation.framework */; };
+		E24CDDF21A134F9B00A2EF6E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDF11A134F9B00A2EF6E /* MediaPlayer.framework */; };
+		E24CDDF31A134FCB00A2EF6E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDED1A134F8200A2EF6E /* CoreData.framework */; };
+		E24CDDF41A134FD400A2EF6E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDEF1A134F8C00A2EF6E /* CoreLocation.framework */; };
+		E24CDDF51A134FFE00A2EF6E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDF11A134F9B00A2EF6E /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +94,9 @@
 		84816C1119FF7A3500A01B80 /* AndanteWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AndanteWidget.entitlements; sourceTree = "<group>"; };
 		84816C1219FF7A5100A01B80 /* Andante.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Andante.entitlements; sourceTree = "<group>"; };
 		84816C1319FF7A7F00A01B80 /* PlayRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRoute.swift; sourceTree = "<group>"; };
+		E24CDDED1A134F8200A2EF6E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		E24CDDEF1A134F8C00A2EF6E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E24CDDF11A134F9B00A2EF6E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +104,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24CDDF21A134F9B00A2EF6E /* MediaPlayer.framework in Frameworks */,
+				E24CDDF01A134F8C00A2EF6E /* CoreLocation.framework in Frameworks */,
+				E24CDDEE1A134F8200A2EF6E /* CoreData.framework in Frameworks */,
 				8454975C19F7BA7600AF7530 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,6 +122,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24CDDF51A134FFE00A2EF6E /* MediaPlayer.framework in Frameworks */,
+				E24CDDF41A134FD400A2EF6E /* CoreLocation.framework in Frameworks */,
+				E24CDDF31A134FCB00A2EF6E /* CoreData.framework in Frameworks */,
 				842F3ACB19F7B119006F2AB4 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +198,9 @@
 		842F3AC919F7B119006F2AB4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E24CDDF11A134F9B00A2EF6E /* MediaPlayer.framework */,
+				E24CDDEF1A134F8C00A2EF6E /* CoreLocation.framework */,
+				E24CDDED1A134F8200A2EF6E /* CoreData.framework */,
 				8454972A19F7B8B700AF7530 /* MapKit.framework */,
 				842F3ACA19F7B119006F2AB4 /* NotificationCenter.framework */,
 			);
