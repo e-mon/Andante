@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import CoreLocation
+import MediaPlayer
 
 // CoreDataがobjcライブラリらしく、これがないとクラスを認識してくれない
 @objc(PlayRoute)
@@ -16,9 +17,9 @@ class PlayRoute: NSManagedObject {
 
     @NSManaged var userName: String
     @NSManaged var region: CLRegion
-    @NSManaged var songName: String
-    @NSManaged var artistName: String
-    // FIXME : インスタンスをいちいち生成してオブジェクトを保存するまでもないので、longで保存でいいかも。
+    @NSManaged var media : MPMediaItem
+    @NSManaged var lat : Double
+    @NSManaged var lng : Double
+    @NSManaged var radius : Double
     @NSManaged var timestamp: NSDate
-
 }
