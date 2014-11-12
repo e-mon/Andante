@@ -8,12 +8,18 @@
 
 import Foundation
 import CoreLocation
+import MediaPlayer
 
 class BackgroundRecController : NSObject, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
     
     func startUpdateLocation() {
+        let status = CLLocationManager.authorizationStatus()
+        if(status == CLAuthorizationStatus.NotDetermined) {
+            locationManager.requestAlwaysAuthorization()
+        }
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
@@ -25,31 +31,26 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
     
     //　automatically called updating location
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        self.printLatitudeLongitude(manager)
-        // music song change notification catch will be below
-        // saveIntoDB(manager)
+        self.saveIntoDB(manager)
     }
     
-    //　temporary method -> print, latitude, longitude, time, StandardTime
-    func printLatitudeLongitude(manager: CLLocationManager) {
-        println(manager.location)
-        println(manager.location.coordinate.latitude)
-        println(manager.location.coordinate.longitude)
-    }
-
-    //　save [latitude, longitude, time, songName, artistName, userName] into DB, when SONG CHANGE
     func saveIntoDB(manager: CLLocationManager) {
-        var timestamp = manager.location.timestamp
+        var systemMusicPlayer = MPMusicPlayerController()
         
-        let prm = PlayRouteManager()
+        // println(manager.location.coordinate.latitude)
+        // println(manager.location.coordinate.longitude)
+        // println(Int(systemMusicPlayer.currentPlaybackTime))
         
-        let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
-        let region : CLRegion = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
-        
-        prm.setRegion(region1, songName: "testSong1", artistName: "artist1", userName: "user1")
-        
-        for pr in prm{
-            println(pr.songName) // -> testSong
+        if(systemMusicPlayer.playbackState.hashValue == 1 && (10 == Int(systemMusicPlayer.currentPlaybackTime))){
+            println(systemMusicPlayer.nowPlayingItem.artist)
+            println(systemMusicPlayer.nowPlayingItem.title)
+            println(systemMusicPlayer.currentPlaybackTime)
+            
+            let prm = PlayRouteManager()
+            
+            let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
+            let region : CLRegion = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
+            prm.setPlayRoute(region, media: systemMusicPlayer.nowPlayingItem, lat: manager.location.coordinate.latitude, lng: manager.location.coordinate.longitude, radius: 20.0, userName: "userName")
         }
     }
 }

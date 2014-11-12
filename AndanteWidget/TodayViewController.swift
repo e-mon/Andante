@@ -10,7 +10,21 @@ import UIKit
 import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
-        
+    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    var brc = BackgroundRecController()
+    
+    @IBAction func segmentedControlChanged(sender: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex{
+        case 0:
+            brc.startUpdateLocation()
+        case 2:
+            brc.stopUpdateLocation()
+        default:
+            break;
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
@@ -30,5 +44,5 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
         completionHandler(NCUpdateResult.NewData)
     }
-    
 }
+

@@ -27,6 +27,9 @@
                                     <segment title="Play"/>
                                     <segment title="Off"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segmentedControlChanged:" destination="M4Y-Lb-cyx" eventType="valueChanged" id="ris-Wu-7UV"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <constraints>
@@ -41,6 +44,9 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="37"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="9PD-Rc-Vfw" id="avs-lc-6Yz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
