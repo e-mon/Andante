@@ -14,7 +14,7 @@ import MediaPlayer
 class PlayRouteManager{
     
     // debugWrite
-    func _writeCoreData(region : CLRegion, songName : String, artistName : String, userName : String)->Bool{
+    func _writeCoreData(region : CLCircularRegion, songName : String, artistName : String, userName : String)->Bool{
         
         let playroute = NSEntityDescription.insertNewObjectForEntityForName("PlayRoute", inManagedObjectContext: managedObjectContext!) as PlayRoute
         playroute.userName = userName
@@ -62,10 +62,10 @@ class PlayRouteManager{
         
     }
     
-    internal func getAllRegion() -> [CLRegion]?{
+    internal func getAllRegion() -> [CLCircularRegion]?{
         let playroutes = fetchRequestToPlayRoute(nil)
         
-        var regions : [CLRegion] = []
+        var regions : [CLCircularRegion] = []
         
         if let unwrapped : [PlayRoute] = playroutes {
             for pr in unwrapped{
@@ -81,7 +81,7 @@ class PlayRouteManager{
         return fetchRequestToPlayRoute(nil)
     }
     
-    internal func getMediaPlayItem(region : CLRegion) -> MPMediaItem?{
+    internal func getMediaPlayItem(region : CLCircularRegion) -> MPMediaItem?{
         
         let playroutes = fetchRequestToPlayRoute(NSPredicate(format: "region = %@",region))
         
@@ -93,12 +93,9 @@ class PlayRouteManager{
         }
     }
     
-    internal func setPlayRoute(region : CLRegion, media : MPMediaItem, lat : Double, lng : Double , radius : Double,  userName : String) -> Bool{
+    internal func setPlayRoute(region : CLCircularRegion, media : MPMediaItem, lat : Double, lng : Double , radius : Double,  userName : String) -> Bool{
         let playroute = NSEntityDescription.insertNewObjectForEntityForName("PlayRoute", inManagedObjectContext: managedObjectContext!) as PlayRoute
         playroute.media = media
-        playroute.lat = lat
-        playroute.lng = lng
-        playroute.radius = radius
         playroute.userName = userName
         playroute.region = region
         playroute.timestamp = NSDate()
