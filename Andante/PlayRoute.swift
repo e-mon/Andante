@@ -16,10 +16,7 @@ import MediaPlayer
 class PlayRoute: NSManagedObject {
 
     @NSManaged var userName: String
-    @NSManaged var region: CLRegion
+    @NSManaged var region: CLCircularRegion
     @NSManaged var media : MPMediaItem
-    @NSManaged var lat : Double
-    @NSManaged var lng : Double
-    @NSManaged var radius : Double
     @NSManaged var timestamp: NSDate
 }
