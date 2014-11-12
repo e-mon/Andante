@@ -46,10 +46,10 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
         let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
         let region : CLRegion = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
         
-        prm.setRegion(region1, songName: "testSong1", artistName: "artist1", userName: "user1")
-        
-        for pr in prm{
-            println(pr.songName) // -> testSong
-        }
+//        prm.setRegion(region1, songName: "testSong1", artistName: "artist1", userName: "user1")
+//        
+//        for pr in prm{
+//            println(pr.songName) // -> testSong
+//        }
     }
 }
