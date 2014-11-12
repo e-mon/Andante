@@ -93,7 +93,7 @@ class PlayRouteManager{
         }
     }
     
-    internal func setPlayRoute(region : CLCircularRegion, media : MPMediaItem, lat : Double, lng : Double , radius : Double,  userName : String) -> Bool{
+    internal func setPlayRoute(region : CLCircularRegion, media : MPMediaItem,  userName : String) -> Bool{
         let playroute = NSEntityDescription.insertNewObjectForEntityForName("PlayRoute", inManagedObjectContext: managedObjectContext!) as PlayRoute
         playroute.media = media
         playroute.userName = userName
