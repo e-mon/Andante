@@ -11,36 +11,49 @@ import MediaPlayer
 
 
 class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
-    var locationManager: CLLocationManager!
-    var systemMusicPlayer: MPMusicPlayerController!
+    private let locationManager = CLLocationManager()
+    private let systemMusicPlayer = MPMusicPlayerController()
+    private let playRouteManager = PlayRouteManager()
+
+    internal var monitoredRegions: NSSet! {
+        return self.locationManager.monitoredRegions
+    }
 
     override init() {
         super.init()
-
-        locationManager.delegate = self
-        systemMusicPlayer = MPMusicPlayerController.systemMusicPlayer()
-
-        let regions = getRegisteredRegionsFromCoreData()
-        startMonitoringForRegions(regions)
+        self.locationManager.delegate = self
     }
 
-    func getRegisteredRegionsFromCoreData() -> [CLRegion] {
-        return [CLRegion()] //  TODO Implementation
-    }
-
-    func startMonitoringForRegions(regions: [CLRegion]) {
+    internal func startMonitoringForRegions() {
+        let regions: [CLCircularRegion]! = self.playRouteManager.getAllRegion()
         for region in regions {
-            locationManager.startMonitoringForRegion(region)
+            self.locationManager.startMonitoringForRegion(region)
         }
     }
 
-    func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
-        let mediaItemCollection = getMediaItemCollectionByRegion(region)
-        systemMusicPlayer.setQueueWithItemCollection(mediaItemCollection)
-        systemMusicPlayer.play()
+    internal func stopMonitoringForRegions() {
+        let regions: NSSet! = self.monitoredRegions
+        for region in regions {
+            self.locationManager.stopMonitoringForRegion(region as CLRegion)
+        }
     }
 
-    func getMediaItemCollectionByRegion(region: CLRegion) -> MPMediaItemCollection {
-        return MPMediaItemCollection(items: [MPMediaItem()]) //  TODO Implementation
+    /* CLLocationManagerDelegate methods */
+
+    internal func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
+        println("**didEntereRegion**")
+        println(region)
+
+        // TODO: regionに対応するitemが何らかの理由で取り出せなかった場合のエラー処理
+        let item: MPMediaItem! = self.playRouteManager.getMediaPlayItem(region as CLCircularRegion)
+        let collection = MPMediaItemCollection(items: [item])
+        self.systemMusicPlayer.setQueueWithItemCollection(collection)
+        self.systemMusicPlayer.play()
+    }
+
+    internal func locationManager(manager: CLLocationManager!, monitoringDidFailForRegion region: CLRegion!, withError error: NSError!) {
+        println("**monitoringDidFailForRegion**")
+        println(region)
+        println(error)
     }
 }
