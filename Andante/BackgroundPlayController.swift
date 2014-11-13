@@ -25,6 +25,7 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
     }
 
     internal func startMonitoringForRegions() {
+        println("**startMonitoringForRegions**")
         let regions: [CLCircularRegion]! = self.playRouteManager.getAllRegion()
         for region in regions {
             self.locationManager.startMonitoringForRegion(region)
@@ -32,6 +33,7 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
     }
 
     internal func stopMonitoringForRegions() {
+        println("**stopMonitoringForRegions**")
         let regions: NSSet! = self.monitoredRegions
         for region in regions {
             self.locationManager.stopMonitoringForRegion(region as CLRegion)
