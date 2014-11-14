@@ -58,4 +58,13 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
         println(region)
         println(error)
     }
+
+    /* Debug methods */
+
+    internal func _startMonitoringForExampleRegion() {
+        println("**_startMonitoringForExampleRegion**")
+        let coordinate = CLLocationCoordinate2D(latitude: 35.028459, longitude: 135.784227)
+        let region = CLCircularRegion(center: coordinate, radius: 30.0, identifier: "LAWSON_IMADEGAWA")
+        self.locationManager.startMonitoringForRegion(region)
+    }
 }
