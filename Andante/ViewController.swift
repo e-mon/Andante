@@ -13,8 +13,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var PlayButton: UIBarButtonItem!
     @IBOutlet weak var RecordButton: UIBarButtonItem!
     @IBOutlet weak var StopButton: UIBarButtonItem!
-    
-    
+
+    private let backgroundPlayController = BackgroundPlayController()
+    private let backgroundRecController = BackgroundRecController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -30,6 +32,9 @@ class ViewController: UIViewController {
         PlayButton.title = "●Play"
         RecordButton.title = "Record"
         StopButton.title = "Stop"
+
+        self.backgroundRecController.stopUpdateLocation()
+        self.backgroundPlayController.startUpdatingLocation()
     }
 
     @IBAction func RecordButton(sender: UIBarButtonItem) {
@@ -37,6 +42,9 @@ class ViewController: UIViewController {
         PlayButton.title = "Play"
         RecordButton.title = "●Record"
         StopButton.title = "Stop"
+
+        self.backgroundPlayController.stopUpdatingLocation()
+        self.backgroundRecController.startUpdateLocation()
     }
     
     @IBAction func StopButton(sender: UIBarButtonItem) {
@@ -44,6 +52,9 @@ class ViewController: UIViewController {
         PlayButton.title = "Play"
         RecordButton.title = "Record"
         StopButton.title = "●Stop"
+
+        self.backgroundPlayController.stopUpdatingLocation()
+        self.backgroundRecController.stopUpdateLocation()
     }
     
     @IBAction func CurrentPositionButton(sender: UIBarButtonItem) {
