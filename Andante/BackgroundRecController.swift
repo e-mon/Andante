@@ -11,6 +11,7 @@ import CoreLocation
 import MediaPlayer
 
 class BackgroundRecController : NSObject, CLLocationManagerDelegate {
+    var lastPlayedMusic: MPMediaItem!
 
     let locationManager = CLLocationManager()
     
@@ -37,11 +38,20 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
     func saveIntoDB(manager: CLLocationManager) {
         var systemMusicPlayer = MPMusicPlayerController()
         
-        if(systemMusicPlayer.playbackState.hashValue == 1 && (10 == Int(systemMusicPlayer.currentPlaybackTime))){
-            println(systemMusicPlayer.nowPlayingItem.artist)
-            println(systemMusicPlayer.nowPlayingItem.title)
-            println(systemMusicPlayer.currentPlaybackTime)
-            
+        println(systemMusicPlayer.nowPlayingItem.artist)
+        println(systemMusicPlayer.nowPlayingItem.title)
+        println(systemMusicPlayer.currentPlaybackTime)
+        println(manager.location.coordinate.latitude)
+        println(manager.location.coordinate.longitude)
+        
+        if lastPlayedMusic != nil {
+            println("not nil")
+        }else{
+            lastPlayedMusic = systemMusicPlayer.nowPlayingItem
+        }
+        
+        if(!lastPlayedMusic.isEqual(systemMusicPlayer.nowPlayingItem)){
+            lastPlayedMusic = systemMusicPlayer.nowPlayingItem
             let prm = PlayRouteManager()
             
             let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
