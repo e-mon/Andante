@@ -31,6 +31,7 @@
 		E24CDDF31A134FCB00A2EF6E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDED1A134F8200A2EF6E /* CoreData.framework */; };
 		E24CDDF41A134FD400A2EF6E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDEF1A134F8C00A2EF6E /* CoreLocation.framework */; };
 		E24CDDF51A134FFE00A2EF6E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDF11A134F9B00A2EF6E /* MediaPlayer.framework */; };
+		E2ACB1481A1A42F400257190 /* BackgroundPlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2ACB1471A1A42F400257190 /* BackgroundPlayController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		E24CDDED1A134F8200A2EF6E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E24CDDEF1A134F8C00A2EF6E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E24CDDF11A134F9B00A2EF6E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		E2ACB1471A1A42F400257190 /* BackgroundPlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundPlayController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 				842F3AAD19F7B062006F2AB4 /* LaunchScreen.xib */,
 				842F3AA219F7B062006F2AB4 /* Supporting Files */,
 				84816C0E19FF79D600A01B80 /* PlayRouteManager.swift */,
+				E2ACB1471A1A42F400257190 /* BackgroundPlayController.swift */,
 			);
 			path = Andante;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F3AA719F7B062006F2AB4 /* ViewController.swift in Sources */,
+				E2ACB1481A1A42F400257190 /* BackgroundPlayController.swift in Sources */,
 				84816C0F19FF79D600A01B80 /* PlayRouteManager.swift in Sources */,
 				321E0E291A1C813E001EE205 /* BackgroundRecController.swift in Sources */,
 				84816C1419FF7A7F00A01B80 /* PlayRoute.swift in Sources */,
