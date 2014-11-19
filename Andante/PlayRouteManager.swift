@@ -67,8 +67,8 @@ class PlayRouteManager{
         
         var regions : [CLCircularRegion] = []
         
-        if let unwrapped : [PlayRoute] = playroutes {
-            for pr in unwrapped{
+        if playroutes?.count > 0 {
+            for pr in playroutes!{
                 regions.append(pr.region)
             }
             return regions
@@ -85,9 +85,33 @@ class PlayRouteManager{
         
         let playroutes = fetchRequestToPlayRoute(NSPredicate(format: "region = %@",region))
         
-        if let unwrapped : [PlayRoute] = playroutes {
+        if playroutes?.count > 0 {
             // FIXME: 1件以上存在することは仕様上ありえないが，一応先頭要素を返す．煮詰める必要アリ
-            return unwrapped[0].media
+            return playroutes![0].media
+        }else{
+            return nil
+        }
+    }
+
+    /* centerを中心とした20m四方の空間内に存在するRegionを検索し，返す*/
+    internal func getMediaPlayItem(center : CLLocationCoordinate2D) -> MPMediaItem?{
+        
+        let pi:Double = 3.14159265359
+        let globalRadius:Double = 6378150.0
+        let metrePerLatitude:Double = 2.0*pi*globalRadius/360.0
+        let metrePerLongitude:Double = globalRadius*cos(center.latitude/180.0*pi)*2.0*pi/360.0
+        let side:Double = 20 //20m四方に設定
+        let bottomLatitude = center.latitude - (side/2.0)/metrePerLatitude
+        let topLatitude = center.latitude + (side/2.0)/metrePerLatitude
+        let rightLongitude = center.longitude - (side/2.0)/metrePerLongitude
+        let leftLongitude = center.longitude + (side/2.0)/metrePerLongitude
+        
+        let format = "latitude >= %f AND latitude <= %f AND longitude >= %f AND longitude <= %f"
+        let playroutes = fetchRequestToPlayRoute(NSPredicate(format:format,bottomLatitude,topLatitude,rightLongitude,leftLongitude))
+
+        if playroutes?.count > 0 {
+            // FIXME: 先頭要素を返す．煮詰める必要アリ
+            return playroutes![0].media
         }else{
             return nil
         }
@@ -99,6 +123,8 @@ class PlayRouteManager{
         playroute.userName = userName
         playroute.region = region
         playroute.timestamp = NSDate()
+        playroute.latitude = region.center.latitude
+        playroute.longitude = region.center.longitude
         
         var savingError: NSError?
         if !managedObjectContext!.save(&savingError){
@@ -120,12 +146,11 @@ class PlayRouteManager{
         
         let playroutes = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError) as [PlayRoute]?
        
-        if let unwrapped : [PlayRoute] = playroutes {
-            return playroutes
+        if playroutes?.count > 0 {
+            return playroutes!
         }else{
             return nil
         }
-        
     }
 
     // MARK: - Core Data stack
