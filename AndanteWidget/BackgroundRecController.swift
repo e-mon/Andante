@@ -37,10 +37,6 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
     func saveIntoDB(manager: CLLocationManager) {
         var systemMusicPlayer = MPMusicPlayerController()
         
-        // println(manager.location.coordinate.latitude)
-        // println(manager.location.coordinate.longitude)
-        // println(Int(systemMusicPlayer.currentPlaybackTime))
-        
         if(systemMusicPlayer.playbackState.hashValue == 1 && (10 == Int(systemMusicPlayer.currentPlaybackTime))){
             println(systemMusicPlayer.nowPlayingItem.artist)
             println(systemMusicPlayer.nowPlayingItem.title)
