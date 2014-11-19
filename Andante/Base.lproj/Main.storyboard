@@ -20,23 +20,48 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TXP-4p-Y5V">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NU8-at-PXL">
-                                <rect key="frame" x="16" y="20" width="192" height="29"/>
-                                <segments>
-                                    <segment title="Play"/>
-                                    <segment title="Record"/>
-                                    <segment title="Stop"/>
-                                </segments>
-                                <connections>
-                                    <action selector="ModeChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="UgW-En-Tvp"/>
-                                </connections>
-                            </segmentedControl>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UaO-aI-vMT">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="cuA-IZ-H53"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Iyn-yk-ECj"/>
+                                    <barButtonItem title="Play" id="PT6-9j-Yl0">
+                                        <connections>
+                                            <action selector="PlayButton:" destination="vXZ-lx-hvc" id="3Sl-u2-wp7"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ZL2-y2-sjL"/>
+                                    <barButtonItem title="Record" id="oAx-6W-R4H">
+                                        <connections>
+                                            <action selector="RecordButton:" destination="vXZ-lx-hvc" id="6hX-oT-Q7R"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="4Cd-6D-c5b"/>
+                                    <barButtonItem title="Stop" id="k5T-9S-HcL">
+                                        <connections>
+                                            <action selector="StopButton:" destination="vXZ-lx-hvc" id="dI6-Ab-s60"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="HEN-JA-3hQ"/>
+                                    <barButtonItem title="CP" id="fM1-vQ-K8y">
+                                        <connections>
+                                            <action selector="CurrentPositionButton:" destination="vXZ-lx-hvc" id="9Na-bq-DIW"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="7Tb-lG-kH7"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="TXP-4p-Y5V" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="3gC-kW-XMk"/>
+                            <constraint firstItem="UaO-aI-vMT" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="4dx-FI-ny5"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="UaO-aI-vMT" secondAttribute="bottom" id="JvV-53-owy"/>
                             <constraint firstItem="TXP-4p-Y5V" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="MIM-6u-Y0T"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="TXP-4p-Y5V" secondAttribute="bottom" id="SOT-v3-9Ps"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="UaO-aI-vMT" secondAttribute="trailing" constant="-16" id="WQ3-sd-ggZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="TXP-4p-Y5V" secondAttribute="trailing" constant="-16" id="cRU-2u-7Ol"/>
                         </constraints>
                     </view>

@@ -20,21 +20,21 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func ModeChanged(sender: UISegmentedControl) {
-        
-        switch(sender.selectedSegmentIndex){
-        // ここにモードのトグル処理を追加する
-        case 0:
-            println("play")
-        case 1:
-            println("record")
-        case 2:
-            println("stop")
-        default:
-            println("Error")
-            
-        }
+    @IBAction func PlayButton(sender: UIBarButtonItem) {
+        println("Play")
     }
 
+    @IBAction func RecordButton(sender: UIBarButtonItem) {
+        println("Record")
+    }
+    
+    @IBAction func StopButton(sender: UIBarButtonItem) {
+        println("Stop")
+    }
+    
+    @IBAction func CurrentPositionButton(sender: UIBarButtonItem) {
+        println("Current Position")
+    }
+    
 }
 
