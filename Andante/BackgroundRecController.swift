@@ -55,8 +55,8 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
             let prm = PlayRouteManager()
             
             let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
-            let region : CLRegion = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
-            prm.setPlayRoute(region, media: systemMusicPlayer.nowPlayingItem, lat: manager.location.coordinate.latitude, lng: manager.location.coordinate.longitude, radius: 20.0, userName: "userName")
+            let region = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
+            prm.setPlayRoute(region, media: systemMusicPlayer.nowPlayingItem, userName: "userName")
         }
     }
 }
