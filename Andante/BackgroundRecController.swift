@@ -38,6 +38,10 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
     func saveIntoDB(manager: CLLocationManager) {
         var systemMusicPlayer = MPMusicPlayerController()
         
+        if systemMusicPlayer.nowPlayingItem == nil{
+            return
+        }
+        
         println(systemMusicPlayer.nowPlayingItem.artist)
         println(systemMusicPlayer.nowPlayingItem.title)
         println(systemMusicPlayer.currentPlaybackTime)
