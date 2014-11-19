@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -14,24 +14,67 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TXP-4p-Y5V">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UaO-aI-vMT">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="cuA-IZ-H53"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Iyn-yk-ECj"/>
+                                    <barButtonItem title="Play" id="PT6-9j-Yl0">
+                                        <connections>
+                                            <action selector="PlayButton:" destination="vXZ-lx-hvc" id="3Sl-u2-wp7"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ZL2-y2-sjL"/>
+                                    <barButtonItem title="Record" id="oAx-6W-R4H">
+                                        <connections>
+                                            <action selector="RecordButton:" destination="vXZ-lx-hvc" id="6hX-oT-Q7R"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="4Cd-6D-c5b"/>
+                                    <barButtonItem title="Stop" id="k5T-9S-HcL">
+                                        <connections>
+                                            <action selector="StopButton:" destination="vXZ-lx-hvc" id="dI6-Ab-s60"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="HEN-JA-3hQ"/>
+                                    <barButtonItem title="CP" id="fM1-vQ-K8y">
+                                        <connections>
+                                            <action selector="CurrentPositionButton:" destination="vXZ-lx-hvc" id="9Na-bq-DIW"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="7Tb-lG-kH7"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="TXP-4p-Y5V" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="3gC-kW-XMk"/>
+                            <constraint firstItem="UaO-aI-vMT" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="4dx-FI-ny5"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="UaO-aI-vMT" secondAttribute="bottom" id="JvV-53-owy"/>
                             <constraint firstItem="TXP-4p-Y5V" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="MIM-6u-Y0T"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="TXP-4p-Y5V" secondAttribute="bottom" id="SOT-v3-9Ps"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="UaO-aI-vMT" secondAttribute="trailing" constant="-16" id="WQ3-sd-ggZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="TXP-4p-Y5V" secondAttribute="trailing" constant="-16" id="cRU-2u-7Ol"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="PlayButton" destination="PT6-9j-Yl0" id="Vye-GP-DYQ"/>
+                        <outlet property="RecordButton" destination="oAx-6W-R4H" id="oMj-Bi-RFO"/>
+                        <outlet property="StopButton" destination="k5T-9S-HcL" id="R6r-5Q-Uc4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="346.5" y="433.5"/>
         </scene>
     </scenes>
 </document>
