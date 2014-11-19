@@ -72,7 +72,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		325AC2A41A00C9F20033CCE9 /* BackgroundRecController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundRecController.swift; sourceTree = "<group>"; };
+		325AC2A41A00C9F20033CCE9 /* BackgroundRecController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackgroundRecController.swift; path = AndanteWidget/BackgroundRecController.swift; sourceTree = SOURCE_ROOT; };
 		842F3A9F19F7B062006F2AB4 /* Andante.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Andante.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		842F3AA319F7B062006F2AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842F3AA419F7B062006F2AB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +156,7 @@
 		842F3AA119F7B062006F2AB4 /* Andante */ = {
 			isa = PBXGroup;
 			children = (
+				325AC2A41A00C9F20033CCE9 /* BackgroundRecController.swift */,
 				84816C1219FF7A5100A01B80 /* Andante.entitlements */,
 				842F3AA419F7B062006F2AB4 /* AppDelegate.swift */,
 				842F3AA619F7B062006F2AB4 /* ViewController.swift */,
@@ -214,7 +215,6 @@
 				842F3ACF19F7B119006F2AB4 /* TodayViewController.swift */,
 				842F3AD119F7B119006F2AB4 /* MainInterface.storyboard */,
 				842F3ACD19F7B119006F2AB4 /* Supporting Files */,
-				325AC2A41A00C9F20033CCE9 /* BackgroundRecController.swift */,
 			);
 			path = AndanteWidget;
 			sourceTree = "<group>";
