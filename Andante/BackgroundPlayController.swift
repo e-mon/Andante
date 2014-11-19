@@ -67,7 +67,7 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
             return
         }
 
-        if item == self.lastPlayedMediaItem {
+        if self.lastPlayedMediaItem != nil && item == self.lastPlayedMediaItem {
             println("--the same as last item--")
             return
         }
