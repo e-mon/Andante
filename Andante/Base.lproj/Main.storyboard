@@ -70,6 +70,7 @@
                         <outlet property="PlayButton" destination="PT6-9j-Yl0" id="Vye-GP-DYQ"/>
                         <outlet property="RecordButton" destination="oAx-6W-R4H" id="oMj-Bi-RFO"/>
                         <outlet property="StopButton" destination="k5T-9S-HcL" id="R6r-5Q-Uc4"/>
+                        <outlet property="myMapView" destination="TXP-4p-Y5V" id="4ay-0n-ZWl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
