@@ -53,9 +53,10 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
         // * 既に曲が再生中
         //     * その曲がAndanteによって再生された
         //     * その曲が他のアプリによって再生された
-        // とりあえず現在は何も再生していない場合にのみ再生を開始する
+        // とりあえず現在はsystemMusicPlayerがStoppedまたはPausedの場合のみ再生を開始する
 
-        if self.systemMusicPlayer.playbackState != MPMusicPlaybackState.Stopped  {
+        let state: MPMusicPlaybackState = self.systemMusicPlayer.playbackState
+        if state != MPMusicPlaybackState.Stopped && state != MPMusicPlaybackState.Paused {
             println("--system music player is occupied--")
             return
         }
