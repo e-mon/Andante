@@ -137,6 +137,19 @@ class PlayRouteManager{
         return true
     }
     
+    internal func delPlayRoute(region : CLCircularRegion, media : MPMediaItem) -> Bool{
+        let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
+        var requestError: NSError?
+        fetchRequest.predicate = NSPredicate(format: "region = %@",region)
+        let objs = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError)
+        if objs?.count > 0 {
+            for obj in objs! {
+                managedObjectContext?.deleteObject(obj as NSManagedObject)
+            }
+        }
+        return true
+    }
+    
     private func fetchRequestToPlayRoute(predicate : NSPredicate?)->[PlayRoute]?{
         let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
         var requestError: NSError?
