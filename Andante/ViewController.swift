@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 import MediaPlayer
 
-class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, SphereMenuDelegate{
+class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, SphereMenuDelegate, BackgroundRecDelegate {
 
     @IBOutlet weak var myMapView: MKMapView!
     
@@ -38,7 +38,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     //マップにアートワークを表示する
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        
+        println("viewDidAppear")
+        showSongInfo()
+    }
+    
+    func showSongInfo(){
+        println("show song infos on map")
         var playRoute:PlayRouteManager! = PlayRouteManager()
         let playroutelist = playRoute.getPlayRoutes()
         
@@ -110,6 +115,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         // Delegateの設定
         myLocationManager.delegate = self
+        backgroundRecController.delegate = self
         
         // 10m移動したら位置情報を更新する
         myLocationManager.distanceFilter = 10.0

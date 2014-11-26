@@ -10,10 +10,15 @@ import Foundation
 import CoreLocation
 import MediaPlayer
 
+@objc protocol BackgroundRecDelegate{
+    optional func showSongInfo()
+}
+
 class BackgroundRecController : NSObject, CLLocationManagerDelegate {
-    var lastPlayedMusic: MPMediaItem!
     
+    var lastPlayedMusic: MPMediaItem!
     let locationManager = CLLocationManager()
+    var delegate:BackgroundRecDelegate?
     
     func startUpdateLocation() {
         let status = CLLocationManager.authorizationStatus()
@@ -55,12 +60,14 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
         }
         
         if(!lastPlayedMusic.isEqual(systemMusicPlayer.nowPlayingItem)){
+            println("song changed")
             lastPlayedMusic = systemMusicPlayer.nowPlayingItem
             let prm = PlayRouteManager()
             
             let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
             let region = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
             prm.setPlayRoute(region, media: systemMusicPlayer.nowPlayingItem, userName: "userName")
+            delegate?.showSongInfo!()
         }
     }
 }
