@@ -11,19 +11,22 @@ import MapKit
 import CoreLocation
 import MediaPlayer
 
-class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, SphereMenuDelegate{
 
-    @IBOutlet weak var PlayButton: UIBarButtonItem!
-    @IBOutlet weak var RecordButton: UIBarButtonItem!
-    @IBOutlet weak var StopButton: UIBarButtonItem!
     @IBOutlet weak var myMapView: MKMapView!
+    
+    private var MenuIcon: UIImage!
+    private var PlayIcon: UIImage!
+    private var RecordIcon: UIImage!
+    private var StopIcon: UIImage!
+    private var PositionIcon: UIImage!
 
     private let backgroundPlayController = BackgroundPlayController()
     private let backgroundRecController = BackgroundRecController()
     var myLocationManager: CLLocationManager!
     
-    // 0:stop 1:play 2:record 良くない書き方
-    private var state = 0
+    // 0:PlayMode 1:RecordMode 2:StopMode 良くない書き方
+    private var state = 2
     
     //アートワーク表示用に、MKPointAnnotationをカスタムしたクラスを宣言
     class CustomPointAnnotation: MKPointAnnotation {
@@ -58,6 +61,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 myMapView.addAnnotation(info)
             }
         }
+    
     }
     
     //画像表示用にaddAnnotationから呼ばれる
@@ -142,8 +146,26 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // myMapViewを最背面へ
         self.view.sendSubviewToBack(myMapView)
         
-        // 初期状態はStop
-        StopButton.tintColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 1)
+        // 現在地ボタン
+        let PositionIcon = UIImage(named: "PositionIcon") as UIImage!
+        let imageButton   = UIButton()
+        imageButton.tag = 4
+        imageButton.frame = CGRectMake(0, 0, 128, 128)
+        imageButton.layer.position = CGPoint(x: self.view.frame.width/2+100, y:500)
+        imageButton.setImage(PositionIcon, forState: .Normal)
+        imageButton.addTarget(self, action: "PositionIconTapped:", forControlEvents:.TouchUpInside)
+        self.view.addSubview(imageButton)
+        
+        // SphereMenuUI
+        MenuIcon = UIImage(named: "StopIcon-on")
+        PlayIcon = UIImage(named: "PlayIcon-off")
+        RecordIcon = UIImage(named: "RecordIcon-off")
+        StopIcon = UIImage(named: "StopIcon-on")
+        
+        var images:[UIImage] = [PlayIcon!,RecordIcon!,StopIcon!]
+        var menu = SphereMenu(startPoint: CGPointMake(260, 420), startImage: MenuIcon!, submenuImages:images)
+        menu.delegate = self
+        self.view.addSubview(menu)
     }
     
     
@@ -184,51 +206,74 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func PlayButton(sender: UIBarButtonItem) {
-        if state != 1 {
-            println("Play")
-            PlayButton.tintColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 1)
-            RecordButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-            StopButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-        
-            self.backgroundRecController.stopUpdateLocation()
-            self.backgroundPlayController.startUpdatingLocation()
-            state = 1
-        }
-    }
+    
+    func sphereDidSelected(index: Int) {
+        println("index = \(index)")
+        // ひよコードです
+        switch index {
+            case 0:
+                if state != 0 {
+                    println("Play")
+                    MenuIcon = UIImage(named: "PlayIcon-on")
+                    PlayIcon = UIImage(named: "PlayIcon-on")
+                    RecordIcon = UIImage(named: "RecordIcon-off")
+                    StopIcon = UIImage(named: "StopIcon-off")
+                    
+                    var images:[UIImage] = [PlayIcon!,RecordIcon!,StopIcon!]
+                    var menu = SphereMenu(startPoint: CGPointMake(260, 420), startImage: MenuIcon!, submenuImages:images)
+                    menu.delegate = self
+                    self.view.addSubview(menu)
+                
+                    self.backgroundRecController.stopUpdateLocation()
+                    self.backgroundPlayController.startUpdatingLocation()
+                    state = 0
+                }
+            case 1:
+                if state != 1 {
+                    println("Record")
+                    MenuIcon = UIImage(named: "RecordIcon-on")
+                    PlayIcon = UIImage(named: "PlayIcon-off")
+                    RecordIcon = UIImage(named: "RecordIcon-on")
+                    StopIcon = UIImage(named: "StopIcon-off")
+                    
+                    var images:[UIImage] = [PlayIcon!,RecordIcon!,StopIcon!]
+                    var menu = SphereMenu(startPoint: CGPointMake(260, 420), startImage: MenuIcon!, submenuImages:images)
+                    menu.delegate = self
+                    self.view.addSubview(menu)
+                    
+                    self.backgroundPlayController.stopUpdatingLocation()
+                    self.backgroundRecController.startUpdateLocation()
+                    state = 1
+                }
+            case 2:
+                if state != 2 {
+                    println("Stop")
+                    MenuIcon = UIImage(named: "StopIcon-on")
+                    PlayIcon = UIImage(named: "PlayIcon-off")
+                    RecordIcon = UIImage(named: "RecordIcon-off")
+                    StopIcon = UIImage(named: "StopIcon-on")
+                    
+                    var images:[UIImage] = [PlayIcon!,RecordIcon!,StopIcon!]
+                    var menu = SphereMenu(startPoint: CGPointMake(260, 420), startImage: MenuIcon!, submenuImages:images)
+                    menu.delegate = self
+                    self.view.addSubview(menu)
+                    
+                    self.backgroundPlayController.stopUpdatingLocation()
+                    self.backgroundRecController.stopUpdateLocation()
+                    state = 2
+                }
 
-    @IBAction func RecordButton(sender: UIBarButtonItem) {
-        if state != 2{
-            println("Record")
-            PlayButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-            RecordButton.tintColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 1)
-            StopButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+            default:
+                break
+        }
         
-            self.backgroundPlayController.stopUpdatingLocation()
-            self.backgroundRecController.startUpdateLocation()
-            state = 2
-        }
     }
     
-    @IBAction func StopButton(sender: UIBarButtonItem) {
-        if state != 0 {
-            println("Stop")
-            PlayButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-            RecordButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-            StopButton.tintColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 1)
-            
-            self.backgroundPlayController.stopUpdatingLocation()
-            self.backgroundRecController.stopUpdateLocation()
-            state = 0
-        }
-    }
-    
-    @IBAction func CurrentPositionButton(sender: UIBarButtonItem) {
+    func PositionIconTapped(sender: UIButton){
         println("Pos")
-        
         //実装してみた。ちゃんと動く
         myMapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
     }
-    
+
     
 }
