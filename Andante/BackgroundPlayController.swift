@@ -24,7 +24,7 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
 
     internal func startUpdatingLocation() {
