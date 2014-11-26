@@ -27,25 +27,37 @@
                                 </constraints>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Iyn-yk-ECj"/>
-                                    <barButtonItem title="Play" id="PT6-9j-Yl0">
+                                    <barButtonItem image="play-44.png" style="plain" id="PT6-9j-Yl0" userLabel="Play" propertyAccessControl="localizable">
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <attributedString key="userComments">
+                                            <fragment content="Play">
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
                                         <connections>
                                             <action selector="PlayButton:" destination="vXZ-lx-hvc" id="3Sl-u2-wp7"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ZL2-y2-sjL"/>
-                                    <barButtonItem title="Record" id="oAx-6W-R4H">
+                                    <barButtonItem image="rec-44.png" style="plain" id="oAx-6W-R4H" userLabel="Record">
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="RecordButton:" destination="vXZ-lx-hvc" id="6hX-oT-Q7R"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="4Cd-6D-c5b"/>
-                                    <barButtonItem title="Stop" id="k5T-9S-HcL">
+                                    <barButtonItem image="stop-44.png" style="plain" id="k5T-9S-HcL" userLabel="Stop">
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="StopButton:" destination="vXZ-lx-hvc" id="dI6-Ab-s60"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="HEN-JA-3hQ"/>
-                                    <barButtonItem title="CP" id="fM1-vQ-K8y">
+                                    <barButtonItem image="navi-44.png" style="plain" id="fM1-vQ-K8y" userLabel="CurrentPosition">
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="CurrentPositionButton:" destination="vXZ-lx-hvc" id="9Na-bq-DIW"/>
                                         </connections>
@@ -78,4 +90,10 @@
             <point key="canvasLocation" x="346.5" y="433.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="navi-44.png" width="44" height="44"/>
+        <image name="play-44.png" width="44" height="44"/>
+        <image name="rec-44.png" width="44" height="44"/>
+        <image name="stop-44.png" width="44" height="44"/>
+    </resources>
 </document>
