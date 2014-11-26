@@ -50,6 +50,7 @@
 		84816C1019FF79D600A01B80 /* PlayRouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C0E19FF79D600A01B80 /* PlayRouteManager.swift */; };
 		84816C1419FF7A7F00A01B80 /* PlayRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C1319FF7A7F00A01B80 /* PlayRoute.swift */; };
 		84816C1519FF7A7F00A01B80 /* PlayRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84816C1319FF7A7F00A01B80 /* PlayRoute.swift */; };
+		84E08C951A25E15C002FF422 /* Toucan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E08C941A25E15C002FF422 /* Toucan.swift */; };
 		E24CDDEE1A134F8200A2EF6E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDED1A134F8200A2EF6E /* CoreData.framework */; };
 		E24CDDF01A134F8C00A2EF6E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDEF1A134F8C00A2EF6E /* CoreLocation.framework */; };
 		E24CDDF21A134F9B00A2EF6E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24CDDF11A134F9B00A2EF6E /* MediaPlayer.framework */; };
@@ -145,6 +146,7 @@
 		84816C1119FF7A3500A01B80 /* AndanteWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AndanteWidget.entitlements; sourceTree = "<group>"; };
 		84816C1219FF7A5100A01B80 /* Andante.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Andante.entitlements; sourceTree = "<group>"; };
 		84816C1319FF7A7F00A01B80 /* PlayRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRoute.swift; sourceTree = "<group>"; };
+		84E08C941A25E15C002FF422 /* Toucan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toucan.swift; sourceTree = "<group>"; };
 		E24CDDED1A134F8200A2EF6E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E24CDDEF1A134F8C00A2EF6E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E24CDDF11A134F9B00A2EF6E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -258,6 +260,7 @@
 				630FEE7F1A25B54C00C155EC /* SphereMenu.swift */,
 				842F3AA419F7B062006F2AB4 /* AppDelegate.swift */,
 				842F3AA619F7B062006F2AB4 /* ViewController.swift */,
+				84E08C941A25E15C002FF422 /* Toucan.swift */,
 				84816C0A19FF79C500A01B80 /* Model.xcdatamodeld */,
 				84816C1319FF7A7F00A01B80 /* PlayRoute.swift */,
 				842F3AA819F7B062006F2AB4 /* Main.storyboard */,
@@ -501,6 +504,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F3AA719F7B062006F2AB4 /* ViewController.swift in Sources */,
+				84E08C951A25E15C002FF422 /* Toucan.swift in Sources */,
 				E2ACB1481A1A42F400257190 /* BackgroundPlayController.swift in Sources */,
 				84816C0F19FF79D600A01B80 /* PlayRouteManager.swift in Sources */,
 				321E0E291A1C813E001EE205 /* BackgroundRecController.swift in Sources */,
