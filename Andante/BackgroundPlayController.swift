@@ -29,6 +29,8 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
 
     internal func startUpdatingLocation() {
         println("**startUpdatingLocation**")
+        self.lastHitLocation = nil
+        self.lastPlayedMediaItem = nil
         self.locationManager.startUpdatingLocation()
     }
 
