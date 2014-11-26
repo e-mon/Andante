@@ -22,6 +22,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     private let backgroundRecController = BackgroundRecController()
     var myLocationManager: CLLocationManager!
     
+    // 0:stop 1:play 2:record 良くない書き方
+    private var state = 0
+    
     //アートワーク表示用に、MKPointAnnotationをカスタムしたクラスを宣言
     class CustomPointAnnotation: MKPointAnnotation {
         var artwork: MPMediaItemArtwork!
@@ -35,7 +38,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
         willEnterForeground(nil)
     }
-    
+
     func mapInit(){
         myLocationManager = CLLocationManager()
         myLocationManager.delegate = self
@@ -62,11 +65,14 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         // MapViewをViewに追加
         self.view.addSubview(myMapView)
+        // myMapViewを最背面へ
+        self.view.sendSubviewToBack(myMapView)
+        
+        // 初期状態はStop
+        StopButton.tintColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 1)
     }
 
     func willEnterForeground(notification: NSNotification!)  {
-        super.viewDidAppear(true)
-        
         var playRoute:PlayRouteManager! = PlayRouteManager()
         let playroutelist = playRoute.getPlayRoutes()
         
@@ -124,7 +130,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
         return anView
     }
-    
+
     // 表示範囲が変更された時に呼び出される
     // 地図の中心点の経度緯度を取得する
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
@@ -163,33 +169,42 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
 
     @IBAction func PlayButton(sender: UIBarButtonItem) {
-        println("Play")
-        PlayButton.title = "●Play"
-        RecordButton.title = "Record"
-        StopButton.title = "Stop"
-
-        self.backgroundRecController.stopUpdateLocation()
-        self.backgroundPlayController.startUpdatingLocation()
+        if state != 1 {
+            println("Play")
+            PlayButton.tintColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 1)
+            RecordButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+            StopButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+        
+            self.backgroundRecController.stopUpdateLocation()
+            self.backgroundPlayController.startUpdatingLocation()
+            state = 1
+        }
     }
 
     @IBAction func RecordButton(sender: UIBarButtonItem) {
-        println("Record")
-        PlayButton.title = "Play"
-        RecordButton.title = "●Record"
-        StopButton.title = "Stop"
-
-        self.backgroundPlayController.stopUpdatingLocation()
-        self.backgroundRecController.startUpdateLocation()
+        if state != 2{
+            println("Record")
+            PlayButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+            RecordButton.tintColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 1)
+            StopButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+        
+            self.backgroundPlayController.stopUpdatingLocation()
+            self.backgroundRecController.startUpdateLocation()
+            state = 2
+        }
     }
     
     @IBAction func StopButton(sender: UIBarButtonItem) {
-        println("Stop")
-        PlayButton.title = "Play"
-        RecordButton.title = "Record"
-        StopButton.title = "●Stop"
-
-        self.backgroundPlayController.stopUpdatingLocation()
-        self.backgroundRecController.stopUpdateLocation()
+        if state != 0 {
+            println("Stop")
+            PlayButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+            RecordButton.tintColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+            StopButton.tintColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 1)
+            
+            self.backgroundPlayController.stopUpdatingLocation()
+            self.backgroundRecController.stopUpdateLocation()
+            state = 0
+        }
     }
     
     @IBAction func CurrentPositionButton(sender: UIBarButtonItem) {
