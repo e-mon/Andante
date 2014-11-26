@@ -93,14 +93,14 @@ class PlayRouteManager{
         }
     }
 
-    /* centerを中心とした20m四方の空間内に存在するRegionを検索し，返す*/
-    internal func getMediaPlayItem(center : CLLocationCoordinate2D) -> MPMediaItem?{
+    /* centerを中心とした 'side' m四方の空間内に存在するRegionを検索し，返す*/
+    internal func getMediaPlayItem(center : CLLocationCoordinate2D, side : Double) -> MPMediaItem?{
         
         let pi:Double = 3.14159265359
         let globalRadius:Double = 6378150.0
         let metrePerLatitude:Double = 2.0*pi*globalRadius/360.0
         let metrePerLongitude:Double = globalRadius*cos(center.latitude/180.0*pi)*2.0*pi/360.0
-        let side:Double = 20 //20m四方に設定
+
         let bottomLatitude = center.latitude - (side/2.0)/metrePerLatitude
         let topLatitude = center.latitude + (side/2.0)/metrePerLatitude
         let rightLongitude = center.longitude - (side/2.0)/metrePerLongitude
