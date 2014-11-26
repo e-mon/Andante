@@ -61,7 +61,7 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
             return
         }
 
-        let item: MPMediaItem! = self.playRouteManager.getMediaPlayItem(newestLocation.coordinate,side : 20.0)
+        let item: MPMediaItem! = self.playRouteManager.getMediaPlayItem(newestLocation.coordinate, side: 40.0)
 
         if item == nil {
             println("--item not found--")
