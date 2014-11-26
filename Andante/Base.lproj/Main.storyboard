@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TXP-4p-Y5V">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                             </mapView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UaO-aI-vMT">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
@@ -60,7 +60,7 @@
                             <constraint firstItem="UaO-aI-vMT" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="4dx-FI-ny5"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="UaO-aI-vMT" secondAttribute="bottom" id="JvV-53-owy"/>
                             <constraint firstItem="TXP-4p-Y5V" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="MIM-6u-Y0T"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="TXP-4p-Y5V" secondAttribute="bottom" id="SOT-v3-9Ps"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="TXP-4p-Y5V" secondAttribute="bottom" constant="44" id="SOT-v3-9Ps"/>
                             <constraint firstAttribute="trailingMargin" secondItem="UaO-aI-vMT" secondAttribute="trailing" constant="-16" id="WQ3-sd-ggZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="TXP-4p-Y5V" secondAttribute="trailing" constant="-16" id="cRU-2u-7Ol"/>
                         </constraints>

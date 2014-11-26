@@ -27,10 +27,44 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         var artwork: MPMediaItemArtwork!
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // mapの初期化及び表示
+        mapInit()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        willEnterForeground(nil)
+    }
     
-    //画面が表示された後に呼び出される
-    //マップにアートワークを表示する
-    override func  viewDidAppear(animated: Bool) {
+    func mapInit(){
+        myLocationManager = CLLocationManager()
+        myLocationManager.delegate = self
+        myMapView.delegate = self
+        
+        // 10m移動したら位置情報を更新する
+        myLocationManager.distanceFilter = 10.0
+        
+        // 精度を最高精度にする
+        myLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        // セキュリティ認証のステータスを取得
+        // まだ認証が得られていない場合は、認証ダイアログを表示
+        if(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.NotDetermined) {
+            self.myLocationManager.requestAlwaysAuthorization();
+        }
+        
+        // 位置情報の更新を開始
+        myLocationManager.startUpdatingLocation()
+        
+        //自分の位置を画面中央に表示
+        myMapView.showsUserLocation = true
+        myMapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
+        
+        // MapViewをViewに追加
+        self.view.addSubview(myMapView)
+    }
+
+    func willEnterForeground(notification: NSNotification!)  {
         super.viewDidAppear(true)
         
         var playRoute:PlayRouteManager! = PlayRouteManager()
@@ -57,7 +91,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
     }
     
-    //画像表示用にaddAnnotationから呼ばれる
+    // addAnnotation時に呼び出される
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         
         if !(annotation is CustomPointAnnotation) {
@@ -81,63 +115,15 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         if cpa.artwork != nil {
             println("artwork : \(cpa.artwork.bounds.size)")
+            // とりあえず40×40で表示
+            var h = 40
+            var w = 40
             
-            var h = cpa.artwork.bounds.size.height
-            var w = cpa.artwork.bounds.size.width
-            
-            //アートワークサイズを原寸の1/10に設定
-            //煮詰める必要有り
-            h = h/10
-            w = w/10
-            
-            anView.image = cpa.artwork.imageWithSize(CGSize(width: w,height: h))
-            anView.sizeToFit()
+            // 角丸化
+            anView.image = Toucan(image: cpa.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
         }
         return anView
     }
-    
-    
-    //初回ロード時のみ呼び出される
-    //起動時に、現在地を画面中央に表示する
-    override func viewDidLoad() {
-        super.viewDidLoad()
-            
-        // LocationManagerの生成
-        myLocationManager = CLLocationManager()
-        
-        // Delegateの設定
-        myLocationManager.delegate = self
-        
-        // 10m移動したら位置情報を更新する
-        myLocationManager.distanceFilter = 10.0
-        
-        // 精度を最高精度にする
-        myLocationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
-        // セキュリティ認証のステータスを取得
-        let status = CLLocationManager.authorizationStatus()
-        
-        // まだ認証が得られていない場合は、認証ダイアログを表示
-        if(status == CLAuthorizationStatus.NotDetermined) {
-            
-            // まだ承認が得られていない場合は、認証ダイアログを表示
-            self.myLocationManager.requestAlwaysAuthorization();
-        }
-        
-        // 位置情報の更新を開始
-        myLocationManager.startUpdatingLocation()
-        
-        // Delegateを設定
-        myMapView.delegate = self
-        
-        //自分の位置を画面中央に表示
-        myMapView.showsUserLocation = true
-        myMapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
-        
-        // MapViewをViewに追加
-        self.view.addSubview(myMapView)
-    }
-    
     
     // 表示範囲が変更された時に呼び出される
     // 地図の中心点の経度緯度を取得する

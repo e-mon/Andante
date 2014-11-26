@@ -42,14 +42,14 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
             return
         }
         
-        println(systemMusicPlayer.nowPlayingItem.artist)
-        println(systemMusicPlayer.nowPlayingItem.title)
-        println(systemMusicPlayer.currentPlaybackTime)
-        println(manager.location.coordinate.latitude)
-        println(manager.location.coordinate.longitude)
+//        println(systemMusicPlayer.nowPlayingItem.artist)
+//        println(systemMusicPlayer.nowPlayingItem.title)
+//        println(systemMusicPlayer.currentPlaybackTime)
+//        println(manager.location.coordinate.latitude)
+//        println(manager.location.coordinate.longitude)
         
         if lastPlayedMusic != nil {
-            println("not nil")
+            //println("not nil")
         }else{
             lastPlayedMusic = systemMusicPlayer.nowPlayingItem
         }
@@ -61,6 +61,8 @@ class BackgroundRecController : NSObject, CLLocationManagerDelegate {
             let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
             let region = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
             prm.setPlayRoute(region, media: systemMusicPlayer.nowPlayingItem, userName: "userName")
+            println("Set Region with \(systemMusicPlayer.nowPlayingItem.title)")
+            prm._readCoreData()
         }
     }
 }

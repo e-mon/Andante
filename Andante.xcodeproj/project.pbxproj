@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		321E0E291A1C813E001EE205 /* BackgroundRecController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E0E281A1C813E001EE205 /* BackgroundRecController.swift */; };
+		842995911A2557B400397C96 /* Toucan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842995901A2557B400397C96 /* Toucan.swift */; };
 		842F3AA519F7B062006F2AB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F3AA419F7B062006F2AB4 /* AppDelegate.swift */; };
 		842F3AA719F7B062006F2AB4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F3AA619F7B062006F2AB4 /* ViewController.swift */; };
 		842F3AAA19F7B062006F2AB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 842F3AA819F7B062006F2AB4 /* Main.storyboard */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		321E0E281A1C813E001EE205 /* BackgroundRecController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundRecController.swift; sourceTree = "<group>"; };
+		842995901A2557B400397C96 /* Toucan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toucan.swift; sourceTree = "<group>"; };
 		842F3A9F19F7B062006F2AB4 /* Andante.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Andante.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		842F3AA319F7B062006F2AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842F3AA419F7B062006F2AB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				84816C1219FF7A5100A01B80 /* Andante.entitlements */,
 				842F3AA419F7B062006F2AB4 /* AppDelegate.swift */,
 				842F3AA619F7B062006F2AB4 /* ViewController.swift */,
+				842995901A2557B400397C96 /* Toucan.swift */,
 				84816C0A19FF79C500A01B80 /* Model.xcdatamodeld */,
 				84816C1319FF7A7F00A01B80 /* PlayRoute.swift */,
 				842F3AA819F7B062006F2AB4 /* Main.storyboard */,
@@ -378,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F3AA719F7B062006F2AB4 /* ViewController.swift in Sources */,
+				842995911A2557B400397C96 /* Toucan.swift in Sources */,
 				E2ACB1481A1A42F400257190 /* BackgroundPlayController.swift in Sources */,
 				84816C0F19FF79D600A01B80 /* PlayRouteManager.swift in Sources */,
 				321E0E291A1C813E001EE205 /* BackgroundRecController.swift in Sources */,

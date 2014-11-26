@@ -42,11 +42,11 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
     internal func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         println("**didUpdateLocations**")
         let newestLocation: CLLocation = locations.last as CLLocation
-        println(newestLocation)
+        //println(newestLocation)
 
         if self.lastHitLocation != nil && self.lastHitLocation.distanceFromLocation(newestLocation) < self.minDistance {
             println("--too near from last location--")
-            return
+            //return
         }
 
         // TODO: 以下の場合の挙動については詳しく考える必要あり
@@ -57,7 +57,7 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
 
         if self.systemMusicPlayer.playbackState != MPMusicPlaybackState.Stopped  {
             println("--system music player is occupied--")
-            return
+            //return
         }
 
         let item: MPMediaItem! = self.playRouteManager.getMediaPlayItem(newestLocation.coordinate)
