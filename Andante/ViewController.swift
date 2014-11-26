@@ -89,16 +89,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         if cpa.artwork != nil {
             println("artwork : \(cpa.artwork.bounds.size)")
             
-            var h = cpa.artwork.bounds.size.height
-            var w = cpa.artwork.bounds.size.width
+            //アートワークサイズを32に固定
+            let h = 32
+            let w = 32
             
-            //アートワークサイズを原寸の1/10に設定
-            //煮詰める必要有り
-            h = h/10
-            w = w/10
-            
-            anView.image = cpa.artwork.imageWithSize(CGSize(width: w,height: h))
-            anView.sizeToFit()
+            //アートワークのデザインを角丸に設定
+            anView.image = Toucan(image: cpa.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
         }
         return anView
     }
