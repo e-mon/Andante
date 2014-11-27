@@ -24,13 +24,15 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     private let backgroundPlayController = BackgroundPlayController()
     private let backgroundRecController = BackgroundRecController()
     var myLocationManager: CLLocationManager!
+    let playRoute:PlayRouteManager! = PlayRouteManager()
     
     // 0:PlayMode 1:RecordMode 2:StopMode 良くない書き方
     private var state = 2
     
     //アートワーク表示用に、MKPointAnnotationをカスタムしたクラスを宣言
     class CustomPointAnnotation: MKPointAnnotation {
-        var artwork: MPMediaItemArtwork!
+        var media: MPMediaItem!
+        var overlay : MKOverlay!
     }
     
     
@@ -44,7 +46,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func showSongInfo(){
         println("show song infos on map")
-        var playRoute:PlayRouteManager! = PlayRouteManager()
         let playroutelist = playRoute.getPlayRoutes()
         
         if (playroutelist != nil){
@@ -55,16 +56,16 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 let myPinLatitude: CLLocationDegrees = pl.latitude
                 let myPinLongitude: CLLocationDegrees = pl.longitude
                 let Pincenter: CLLocationCoordinate2D = CLLocationCoordinate2DMake(myPinLatitude, myPinLongitude)
+                let circle = MKCircle(centerCoordinate: Pincenter, radius: 40.0)
                 
                 info.coordinate = Pincenter //表示位置
                 info.title = pl.media.title // タイトル「曲名」
                 info.subtitle = pl.media.artist // サブタイトル「アーティスト名」
-                info.artwork = pl.media.artwork//アートワーク
-                
+                info.media = pl.media           //アートワーク用
+                info.overlay = circle           //再生範囲用
                 println("title : \(info.title)") //デバッグ用
                 
                 myMapView.addAnnotation(info)
-                let circle = MKCircle(centerCoordinate: Pincenter, radius: 40.0)
                 myMapView.addOverlay(circle)
             }
         }
@@ -87,19 +88,22 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         else {
             anView.annotation = annotation
         }
-        
-        //Set annotation-specific properties **AFTER**
-        //the view is dequeued or created...
+        let deleteButton = UIButton(frame: CGRectMake(0,0,32,32))
+        deleteButton.setImage(UIImage(named : "DeleteIcon"), forState: UIControlState.Normal)
+        anView.rightCalloutAccessoryView = deleteButton
+
+        // Set annotation-specific properties **AFTER**
+        // the view is dequeued or created...
         
         let cpa = annotation as CustomPointAnnotation
         
         //アートワークサイズを32に固定
         let h = 32
         let w = 32
-        if cpa.artwork != nil {
-            println("artwork : \(cpa.artwork.bounds.size)")
+        if cpa.media.artwork != nil {
+            println("artwork : \(cpa.media.artwork.bounds.size)")
             //アートワークのデザインを角丸に設定
-            anView.image = Toucan(image: cpa.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
+            anView.image = Toucan(image: cpa.media.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
         }else{
             
             println("no artwork")
@@ -108,7 +112,33 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
         return anView
     }
+    
+    func mapView(mapView: MKMapView!,annotationView : MKAnnotationView, calloutAccessoryControlTapped control : UIControl){
+        if control == annotationView.rightCalloutAccessoryView{
+            if (annotationView.annotation is CustomPointAnnotation){
 
+                let message = "この地点に登録した曲を\n削除しますか？"
+                let alertView = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                let destructiveAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Destructive,
+                    handler:{
+                        (action:UIAlertAction!) -> Void in
+                            let cpa = annotationView.annotation as CustomPointAnnotation
+                            self.playRoute.delPlayRoute(cpa.media, center: annotationView.annotation.coordinate)
+                            mapView.removeAnnotation(annotationView.annotation)
+                            mapView.removeOverlay(cpa.overlay)
+                })
+                let cancelAction = UIAlertAction(title: "Cancel",style: UIAlertActionStyle.Cancel,
+                    handler:{
+                        (action:UIAlertAction!) -> Void in
+                            println("cancel")
+                })
+                alertView.addAction(destructiveAction)
+                alertView.addAction(cancelAction)
+                presentViewController(alertView, animated: true, completion: nil)
+            }
+        }
+    }
+    
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         var renderer = MKCircleRenderer(overlay: overlay)
         // 淵の色
