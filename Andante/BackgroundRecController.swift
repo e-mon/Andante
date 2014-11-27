@@ -37,7 +37,6 @@ class BackgroundRecController: NSObject, CLLocationManagerDelegate {
             locationManager.requestAlwaysAuthorization()
         }
 
-        self.lastPlayedItem = nil
         self.locationManager.startUpdatingLocation()
     }
     
