@@ -87,9 +87,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         else {
             anView.annotation = annotation
         }
-        
-        //Set annotation-specific properties **AFTER**
-        //the view is dequeued or created...
+        let deleteButton = UIButton(frame: CGRectMake(0,0,32,32))
+        deleteButton.setImage(UIImage(named : "StopIcon-on"), forState: UIControlState.Normal)
+        anView.rightCalloutAccessoryView = deleteButton
+
+        // Set annotation-specific properties **AFTER**
+        // the view is dequeued or created...
         
         let cpa = annotation as CustomPointAnnotation
         
@@ -108,7 +111,13 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
         return anView
     }
-
+    
+    func mapView(mapView: MKMapView!,annotationView : MKAnnotationView, calloutAccessoryControlTapped control : UIControl){
+        if control == annotationView.rightCalloutAccessoryView{
+            mapView.removeAnnotation(annotationView.annotation)
+        }
+    }
+    
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         var renderer = MKCircleRenderer(overlay: overlay)
         // 淵の色
