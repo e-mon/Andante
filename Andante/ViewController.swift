@@ -24,13 +24,14 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     private let backgroundPlayController = BackgroundPlayController()
     private let backgroundRecController = BackgroundRecController()
     var myLocationManager: CLLocationManager!
+    let playRoute:PlayRouteManager! = PlayRouteManager()
     
     // 0:PlayMode 1:RecordMode 2:StopMode 良くない書き方
     private var state = 2
     
     //アートワーク表示用に、MKPointAnnotationをカスタムしたクラスを宣言
     class CustomPointAnnotation: MKPointAnnotation {
-        var artwork: MPMediaItemArtwork!
+        var media: MPMediaItem!
     }
     
     
@@ -44,7 +45,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func showSongInfo(){
         println("show song infos on map")
-        var playRoute:PlayRouteManager! = PlayRouteManager()
         let playroutelist = playRoute.getPlayRoutes()
         
         if (playroutelist != nil){
@@ -59,7 +59,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 info.coordinate = Pincenter //表示位置
                 info.title = pl.media.title // タイトル「曲名」
                 info.subtitle = pl.media.artist // サブタイトル「アーティスト名」
-                info.artwork = pl.media.artwork//アートワーク
+                info.media = pl.media           //アートワーク用
                 
                 println("title : \(info.title)") //デバッグ用
                 
@@ -99,10 +99,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         //アートワークサイズを32に固定
         let h = 32
         let w = 32
-        if cpa.artwork != nil {
-            println("artwork : \(cpa.artwork.bounds.size)")
+        if cpa.media.artwork != nil {
+            println("artwork : \(cpa.media.artwork.bounds.size)")
             //アートワークのデザインを角丸に設定
-            anView.image = Toucan(image: cpa.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
+            anView.image = Toucan(image: cpa.media.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
         }else{
             
             println("no artwork")
@@ -114,7 +114,11 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func mapView(mapView: MKMapView!,annotationView : MKAnnotationView, calloutAccessoryControlTapped control : UIControl){
         if control == annotationView.rightCalloutAccessoryView{
-            mapView.removeAnnotation(annotationView.annotation)
+            if (annotationView.annotation is CustomPointAnnotation){
+                let cpa = annotationView.annotation as CustomPointAnnotation
+                playRoute.delPlayRoute(cpa.media, center: annotationView.annotation.coordinate)
+                mapView.removeAnnotation(annotationView.annotation)
+            }
         }
     }
     
