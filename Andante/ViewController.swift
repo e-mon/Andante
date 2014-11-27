@@ -38,12 +38,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     //マップにアートワークを表示する
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        println("viewDidAppear")
         showSongInfo()
     }
     
     func showSongInfo(){
-        println("show song infos on map")
         var playRoute:PlayRouteManager! = PlayRouteManager()
         let playroutelist = playRoute.getPlayRoutes()
         
@@ -60,9 +58,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 info.title = pl.media.title // タイトル「曲名」
                 info.subtitle = pl.media.artist // サブタイトル「アーティスト名」
                 info.artwork = pl.media.artwork//アートワーク
-                
-                println("title : \(info.title)") //デバッグ用
-                
+
                 myMapView.addAnnotation(info)
             }
         }
@@ -95,12 +91,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let h = 32
         let w = 32
         if cpa.artwork != nil {
-            println("artwork : \(cpa.artwork.bounds.size)")
             //アートワークのデザインを角丸に設定
             anView.image = Toucan(image: cpa.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
         }else{
-            
-            println("no artwork")
             let Noimage = UIImage(named: "NoArtwork")? as UIImage!
             anView.image = Toucan(image: Noimage).maskWithRoundedRect(cornerRadius: 10).image
         }
@@ -177,32 +170,16 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     // 表示範囲が変更された時に呼び出される
     // 地図の中心点の経度緯度を取得する
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
-        
+
         let presentCenter: CLLocationCoordinate2D = myMapView.centerCoordinate
         let lat: Double = presentCenter.latitude
         let lon: Double = presentCenter.longitude
-        
-        println("regionDidChangeAnimated=緯度：\(lat)　経度：\(lon)")
     }
     
     
     // 認証が変更された時に呼び出される
-    // 認証ステータスをプリントする
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        switch status{
-        case .AuthorizedWhenInUse:
-            println("AuthorizedWhenInUse")
-        case .Authorized:
-            println("Authorized")
-        case .Denied:
-            println("Denied")
-        case .Restricted:
-            println("Restricted")
-        case .NotDetermined:
-            println("NotDetermined")
-        default:
-            println("etc.")
-        }
+        return
     }
 
 
@@ -213,12 +190,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
 
     
     func sphereDidSelected(index: Int) {
-        println("index = \(index)")
         // ひよコードです
         switch index {
             case 0:
                 if state != 0 {
-                    println("Play")
                     MenuIcon = UIImage(named: "PlayIcon-on")
                     PlayIcon = UIImage(named: "PlayIcon-on")
                     RecordIcon = UIImage(named: "RecordIcon-off")
@@ -235,7 +210,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 }
             case 1:
                 if state != 1 {
-                    println("Record")
                     MenuIcon = UIImage(named: "RecordIcon-on")
                     PlayIcon = UIImage(named: "PlayIcon-off")
                     RecordIcon = UIImage(named: "RecordIcon-on")
@@ -252,7 +226,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 }
             case 2:
                 if state != 2 {
-                    println("Stop")
                     MenuIcon = UIImage(named: "StopIcon-on")
                     PlayIcon = UIImage(named: "PlayIcon-off")
                     RecordIcon = UIImage(named: "RecordIcon-off")
@@ -275,7 +248,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     func PositionIconTapped(sender: UIButton){
-        println("Pos")
         //実装してみた。ちゃんと動く
         myMapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
     }

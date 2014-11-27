@@ -28,26 +28,21 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
     }
 
     internal func startUpdatingLocation() {
-        println("**startUpdatingLocation**")
         self.lastHitLocation = nil
         self.lastPlayedMediaItem = nil
         self.locationManager.startUpdatingLocation()
     }
 
     internal func stopUpdatingLocation() {
-        println("**stopUpdatingLocation**")
         self.locationManager.stopUpdatingLocation()
     }
 
     /* CLLocationManagerDelegate methods */
 
     internal func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        println("**didUpdateLocations**")
         let newestLocation: CLLocation = locations.last as CLLocation
-        println(newestLocation)
 
         if self.lastHitLocation != nil && self.lastHitLocation.distanceFromLocation(newestLocation) < self.minDistance {
-            println("--too near from last location--")
             return
         }
 
@@ -59,24 +54,18 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
 
         let state: MPMusicPlaybackState = self.systemMusicPlayer.playbackState
         if state != MPMusicPlaybackState.Stopped && state != MPMusicPlaybackState.Paused {
-            println("--system music player is occupied--")
             return
         }
 
         let item: MPMediaItem! = self.playRouteManager.getMediaPlayItem(newestLocation.coordinate, side: 40.0)
 
         if item == nil {
-            println("--item not found--")
             return
         }
 
         if self.lastPlayedMediaItem != nil && item == self.lastPlayedMediaItem {
-            println("--the same as last item--")
             return
         }
-
-        println("--new item found--")
-        println(item)
 
         let collection = MPMediaItemCollection(items: [item])
         self.systemMusicPlayer.setQueueWithItemCollection(collection)
