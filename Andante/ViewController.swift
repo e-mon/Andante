@@ -116,10 +116,25 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func mapView(mapView: MKMapView!,annotationView : MKAnnotationView, calloutAccessoryControlTapped control : UIControl){
         if control == annotationView.rightCalloutAccessoryView{
             if (annotationView.annotation is CustomPointAnnotation){
-                let cpa = annotationView.annotation as CustomPointAnnotation
-                playRoute.delPlayRoute(cpa.media, center: annotationView.annotation.coordinate)
-                mapView.removeAnnotation(annotationView.annotation)
-                mapView.removeOverlay(cpa.overlay)
+
+                let message = "この地点に登録した曲を\n削除しますか？"
+                let alertView = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                let destructiveAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Destructive,
+                    handler:{
+                        (action:UIAlertAction!) -> Void in
+                            let cpa = annotationView.annotation as CustomPointAnnotation
+                            self.playRoute.delPlayRoute(cpa.media, center: annotationView.annotation.coordinate)
+                            mapView.removeAnnotation(annotationView.annotation)
+                            mapView.removeOverlay(cpa.overlay)
+                })
+                let cancelAction = UIAlertAction(title: "Cancel",style: UIAlertActionStyle.Cancel,
+                    handler:{
+                        (action:UIAlertAction!) -> Void in
+                            println("cancel")
+                })
+                alertView.addAction(destructiveAction)
+                alertView.addAction(cancelAction)
+                presentViewController(alertView, animated: true, completion: nil)
             }
         }
     }
