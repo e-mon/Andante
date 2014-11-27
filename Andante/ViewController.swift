@@ -91,15 +91,18 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         let cpa = annotation as CustomPointAnnotation
         
+        //アートワークサイズを32に固定
+        let h = 32
+        let w = 32
         if cpa.artwork != nil {
             println("artwork : \(cpa.artwork.bounds.size)")
-            
-            //アートワークサイズを32に固定
-            let h = 32
-            let w = 32
-            
             //アートワークのデザインを角丸に設定
             anView.image = Toucan(image: cpa.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
+        }else{
+            
+            println("no artwork")
+            let Noimage = UIImage(named: "NoArtwork")? as UIImage!
+            anView.image = Toucan(image: Noimage).maskWithRoundedRect(cornerRadius: 10).image
         }
         return anView
     }
@@ -153,7 +156,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let imageButton   = UIButton()
         imageButton.tag = 4
         imageButton.frame = CGRectMake(0, 0, 128, 128)
-        imageButton.layer.position = CGPoint(x: self.view.frame.width/2+100, y:500)
+        imageButton.layer.position = CGPoint(x: self.view.frame.width/2+120, y:530)
         imageButton.setImage(PositionIcon, forState: .Normal)
         imageButton.addTarget(self, action: "PositionIconTapped:", forControlEvents:.TouchUpInside)
         self.view.addSubview(imageButton)
@@ -165,7 +168,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         StopIcon = UIImage(named: "StopIcon-on")
         
         var images:[UIImage] = [PlayIcon!,RecordIcon!,StopIcon!]
-        var menu = SphereMenu(startPoint: CGPointMake(260, 420), startImage: MenuIcon!, submenuImages:images)
+        var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2+120, 460), startImage: MenuIcon!, submenuImages:images)
         menu.delegate = self
         self.view.addSubview(menu)
     }
@@ -222,7 +225,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                     StopIcon = UIImage(named: "StopIcon-off")
                     
                     var images:[UIImage] = [PlayIcon!,RecordIcon!,StopIcon!]
-                    var menu = SphereMenu(startPoint: CGPointMake(260, 420), startImage: MenuIcon!, submenuImages:images)
+                    var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2+120, 460), startImage: MenuIcon!, submenuImages:images)
                     menu.delegate = self
                     self.view.addSubview(menu)
                 
@@ -239,7 +242,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                     StopIcon = UIImage(named: "StopIcon-off")
                     
                     var images:[UIImage] = [PlayIcon!,RecordIcon!,StopIcon!]
-                    var menu = SphereMenu(startPoint: CGPointMake(260, 420), startImage: MenuIcon!, submenuImages:images)
+                    var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2+120, 460), startImage: MenuIcon!, submenuImages:images)
                     menu.delegate = self
                     self.view.addSubview(menu)
                     
@@ -256,7 +259,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                     StopIcon = UIImage(named: "StopIcon-on")
                     
                     var images:[UIImage] = [PlayIcon!,RecordIcon!,StopIcon!]
-                    var menu = SphereMenu(startPoint: CGPointMake(260, 420), startImage: MenuIcon!, submenuImages:images)
+                    var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2+120, 460), startImage: MenuIcon!, submenuImages:images)
                     menu.delegate = self
                     self.view.addSubview(menu)
                     
