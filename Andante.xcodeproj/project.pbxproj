@@ -34,6 +34,7 @@
 		63EE75D61A24F965003771DF /* icon-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EE75CC1A24F965003771DF /* icon-50@2x.png */; };
 		63EE75D71A24F965003771DF /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EE75CD1A24F965003771DF /* icon-60@2x.png */; };
 		63EE75D81A24F965003771DF /* icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EE75CE1A24F965003771DF /* icon-60@3x.png */; };
+		63F6BD471A2785780009FE19 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F6BD461A2785780009FE19 /* delete.png */; };
 		842F3AA519F7B062006F2AB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F3AA419F7B062006F2AB4 /* AppDelegate.swift */; };
 		842F3AA719F7B062006F2AB4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F3AA619F7B062006F2AB4 /* ViewController.swift */; };
 		842F3AAA19F7B062006F2AB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 842F3AA819F7B062006F2AB4 /* Main.storyboard */; };
@@ -105,6 +106,7 @@
 		63EE75CC1A24F965003771DF /* icon-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-50@2x.png"; sourceTree = "<group>"; };
 		63EE75CD1A24F965003771DF /* icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-60@2x.png"; sourceTree = "<group>"; };
 		63EE75CE1A24F965003771DF /* icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-60@3x.png"; sourceTree = "<group>"; };
+		63F6BD461A2785780009FE19 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		842F3A9F19F7B062006F2AB4 /* Andante.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Andante.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		842F3AA319F7B062006F2AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842F3AA419F7B062006F2AB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				639F42611A26C9D000A0B388 /* noartwork.png */,
+				63F6BD461A2785780009FE19 /* delete.png */,
 				6334F60E1A269B6200BBBD8C /* gps_r@2x.png */,
 				6334F60F1A269B6200BBBD8C /* gps_w@2x.png */,
 				6334F6101A269B6200BBBD8C /* menu_r@2x.png */,
@@ -446,6 +449,7 @@
 				63EE75D81A24F965003771DF /* icon-60@3x.png in Resources */,
 				6334F6191A269B6200BBBD8C /* gps_r@2x.png in Resources */,
 				6334F61D1A269B6200BBBD8C /* play_r@2x.png in Resources */,
+				63F6BD471A2785780009FE19 /* delete.png in Resources */,
 				6334F6231A269B6200BBBD8C /* stop_w@2x.png in Resources */,
 				63EE75C31A24F61F003771DF /* Default-667h@2x.png in Resources */,
 				6334F61F1A269B6200BBBD8C /* record_r@2x.png in Resources */,

@@ -89,7 +89,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             anView.annotation = annotation
         }
         let deleteButton = UIButton(frame: CGRectMake(0,0,32,32))
-        deleteButton.setImage(UIImage(named : "StopIcon-on"), forState: UIControlState.Normal)
+        deleteButton.setImage(UIImage(named : "DeleteIcon"), forState: UIControlState.Normal)
         anView.rightCalloutAccessoryView = deleteButton
 
         // Set annotation-specific properties **AFTER**
