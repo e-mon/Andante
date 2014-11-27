@@ -64,6 +64,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 println("title : \(info.title)") //デバッグ用
                 
                 myMapView.addAnnotation(info)
+                let circle = MKCircle(centerCoordinate: Pincenter, radius: 40.0)
+                myMapView.addOverlay(circle)
             }
         }
     
@@ -106,7 +108,16 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
         return anView
     }
-    
+
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        var renderer = MKCircleRenderer(overlay: overlay)
+        // 淵の色
+        renderer.strokeColor = UIColor.orangeColor().colorWithAlphaComponent(1)
+        renderer.lineWidth = 1
+        
+        renderer.fillColor = UIColor.orangeColor().colorWithAlphaComponent(0.1)
+        return renderer
+    }
     
     //初回ロード時のみ呼び出される
     //起動時に、現在地を画面中央に表示する
