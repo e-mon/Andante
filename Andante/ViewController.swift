@@ -32,6 +32,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     //アートワーク表示用に、MKPointAnnotationをカスタムしたクラスを宣言
     class CustomPointAnnotation: MKPointAnnotation {
         var media: MPMediaItem!
+        var overlay : MKOverlay!
     }
     
     
@@ -55,16 +56,16 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 let myPinLatitude: CLLocationDegrees = pl.latitude
                 let myPinLongitude: CLLocationDegrees = pl.longitude
                 let Pincenter: CLLocationCoordinate2D = CLLocationCoordinate2DMake(myPinLatitude, myPinLongitude)
+                let circle = MKCircle(centerCoordinate: Pincenter, radius: 40.0)
                 
                 info.coordinate = Pincenter //表示位置
                 info.title = pl.media.title // タイトル「曲名」
                 info.subtitle = pl.media.artist // サブタイトル「アーティスト名」
                 info.media = pl.media           //アートワーク用
-                
+                info.overlay = circle           //再生範囲用
                 println("title : \(info.title)") //デバッグ用
                 
                 myMapView.addAnnotation(info)
-                let circle = MKCircle(centerCoordinate: Pincenter, radius: 40.0)
                 myMapView.addOverlay(circle)
             }
         }
@@ -118,6 +119,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 let cpa = annotationView.annotation as CustomPointAnnotation
                 playRoute.delPlayRoute(cpa.media, center: annotationView.annotation.coordinate)
                 mapView.removeAnnotation(annotationView.annotation)
+                mapView.removeOverlay(cpa.overlay)
             }
         }
     }

@@ -154,11 +154,25 @@ class PlayRouteManager{
     }
     
     internal func delPlayRoute(media : MPMediaItem,center : CLLocationCoordinate2D) -> Bool{
+        let eps = 5.0               //範囲誤差
+        let pi:Double = 3.14159265359
+        let globalRadius:Double = 6378150.0
+        let metrePerLatitude:Double = 2.0*pi*globalRadius/360.0
+        let metrePerLongitude:Double = globalRadius*cos(center.latitude/180.0*pi)*2.0*pi/360.0
+        
+        let bottomLatitude = center.latitude - (eps/2.0)/metrePerLatitude
+        let topLatitude = center.latitude + (eps/2.0)/metrePerLatitude
+        let rightLongitude = center.longitude - (eps/2.0)/metrePerLongitude
+        let leftLongitude = center.longitude + (eps/2.0)/metrePerLongitude
+        
         let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
         var requestError: NSError?
-        let format = "media = %@ AND latitude = %f AND longitude = %f"
-        fetchRequest.predicate = NSPredicate(format: format,media,center.latitude,center.longitude)
+        let format = "media = %@ AND latitude >= %f AND latitude <= %f AND longitude >= %f AND longitude <= %f"
+        
+        fetchRequest.predicate = NSPredicate(format: format,media,bottomLatitude,topLatitude,rightLongitude,leftLongitude)
+
         let objs = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError)
+        
         if objs?.count > 0 {
             for obj in objs! {
                 managedObjectContext?.deleteObject(obj as NSManagedObject)
