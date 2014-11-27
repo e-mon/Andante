@@ -17,48 +17,57 @@ protocol BackgroundRecDelegate{
 
 
 class BackgroundRecController: NSObject, CLLocationManagerDelegate {
-    var lastPlayedMusic: MPMediaItem!
-    let locationManager = CLLocationManager()
-    var delegate: BackgroundRecDelegate?
+    internal var delegate: BackgroundRecDelegate?
 
-    func startUpdateLocation() {
+    private let locationManager = CLLocationManager()
+    private let systemMusicPlayer = MPMusicPlayerController.systemMusicPlayer()
+    private let playRouteManager = PlayRouteManager()
+
+    private var lastPlayedItem: MPMediaItem!
+
+    override init() {
+        super.init()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+
+    internal func startUpdateLocation() {
         let status = CLLocationManager.authorizationStatus()
         if status == CLAuthorizationStatus.NotDetermined {
             locationManager.requestAlwaysAuthorization()
         }
 
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
+        self.lastPlayedItem = nil
+        self.locationManager.startUpdatingLocation()
     }
     
-    func stopUpdateLocation() {
-        locationManager.stopUpdatingLocation()
+    internal func stopUpdateLocation() {
+        self.locationManager.stopUpdatingLocation()
     }
 
-    //　automatically called updating location
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        self.saveIntoDB(manager)
-    }
+    /* CLLocationManagerDelegate methods */
 
-    func saveIntoDB(manager: CLLocationManager) {
-        var systemMusicPlayer = MPMusicPlayerController()
-        if systemMusicPlayer.nowPlayingItem == nil {
+    internal func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        let nowPlayingItem: MPMediaItem! = self.systemMusicPlayer.nowPlayingItem
+
+        if nowPlayingItem == nil {
             return
         }
 
-        if lastPlayedMusic == nil {
-            lastPlayedMusic = systemMusicPlayer.nowPlayingItem
+        if self.lastPlayedItem != nil && nowPlayingItem == self.lastPlayedItem {
+            return
         }
 
-        if !lastPlayedMusic.isEqual(systemMusicPlayer.nowPlayingItem) {
-            lastPlayedMusic = systemMusicPlayer.nowPlayingItem
-            let prm = PlayRouteManager()
+        let newestLocation: CLLocation = locations.last as CLLocation
+        let latitude: CLLocationDegrees = newestLocation.coordinate.latitude
+        let longitude: CLLocationDegrees = newestLocation.coordinate.longitude
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let region = CLCircularRegion(center: coordinate, radius: 20.0, identifier: "test1")
+        self.playRouteManager.setPlayRoute(region, media: nowPlayingItem, userName: "userName")
 
-            let clc = CLLocationCoordinate2D(latitude: manager.location.coordinate.latitude, longitude: manager.location.coordinate.longitude)
-            let region = CLCircularRegion(center: clc, radius: 20.0, identifier: "test1")
-            prm.setPlayRoute(region, media: systemMusicPlayer.nowPlayingItem, userName: "userName")
-            delegate?.showSongInfo()
-        }
+        self.lastPlayedItem = nowPlayingItem
+
+        // リアルタイム表示
+        self.delegate?.showSongInfo()
     }
 }
