@@ -11,14 +11,14 @@ import CoreData
 import CoreLocation
 import MediaPlayer
 
+
 // CoreDataがobjcライブラリらしく、これがないとクラスを認識してくれない
 @objc(PlayRoute)
 class PlayRoute: NSManagedObject {
-
     @NSManaged var userName: String
     @NSManaged var region: CLCircularRegion
-    @NSManaged var latitude : Double
-    @NSManaged var longitude : Double
-    @NSManaged var media : MPMediaItem
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
+    @NSManaged var media: MPMediaItem
     @NSManaged var timestamp: NSDate
 }

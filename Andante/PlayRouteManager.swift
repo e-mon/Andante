@@ -11,11 +11,10 @@ import CoreData
 import CoreLocation
 import MediaPlayer
 
-class PlayRouteManager{
-    
+
+class PlayRouteManager {
     // debugWrite
-    func _writeCoreData(region : CLCircularRegion, songName : String, artistName : String, userName : String)->Bool{
-        
+    func _writeCoreData(region: CLCircularRegion, songName: String, artistName: String, userName: String) -> Bool {
         let playroute = NSEntityDescription.insertNewObjectForEntityForName("PlayRoute", inManagedObjectContext: managedObjectContext!) as PlayRoute
         playroute.userName = userName
         playroute.region = region
@@ -24,78 +23,71 @@ class PlayRouteManager{
         var savingError: NSError?
         if managedObjectContext!.save(&savingError){
             println("Successfully saved the new songName")
-        }else{
+        } else {
             if let error = savingError{
                 println("Failed to save the new person. Error = \(error)")
             }
         }
+
         return true
     }
     
     // debugRead
-    func _readCoreData() -> Bool{
+    func _readCoreData() -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
         var requestError: NSError?
-        
+
         /* And execute the fetch request on the context */
         let playroutes = managedObjectContext!.executeFetchRequest(fetchRequest,
             error: &requestError) as [PlayRoute!]
-        
+
         /* Make sure we get the array */
-        if playroutes.count > 0{
-            
+        if playroutes.count > 0 {
             var counter = 1
-            for playroute in playroutes{
-                
+            for playroute in playroutes {
                 println("playroute \(counter) songName = \(playroute.userName)")
                 println("playroute \(counter) region = \(playroute.region)")
                 println("playroute \(counter) songName = \(playroute.timestamp)")
-                
                 counter++
             }
-            
         } else {
             println("Could not find any Person entities in the context")
         }
         
         return true
-        
     }
     
-    internal func getAllRegion() -> [CLCircularRegion]?{
+    internal func getAllRegion() -> [CLCircularRegion]? {
         let playroutes = fetchRequestToPlayRoute(nil)
-        
-        var regions : [CLCircularRegion] = []
+        var regions: [CLCircularRegion] = []
         
         if playroutes?.count > 0 {
-            for pr in playroutes!{
+            for pr in playroutes! {
                 regions.append(pr.region)
             }
             return regions
-        }else{
+        } else {
             return nil
         }
     }
-    
-    internal func getPlayRoutes()->[PlayRoute]?{
+
+    internal func getPlayRoutes() -> [PlayRoute]? {
         return fetchRequestToPlayRoute(nil)
     }
-    
-    internal func getMediaPlayItem(region : CLCircularRegion) -> MPMediaItem?{
-        
+
+    internal func getMediaPlayItem(region: CLCircularRegion) -> MPMediaItem? {
         let playroutes = fetchRequestToPlayRoute(NSPredicate(format: "region = %@",region))
         
         if playroutes?.count > 0 {
             // FIXME: 1件以上存在することは仕様上ありえないが，一応先頭要素を返す．煮詰める必要アリ
             return playroutes![0].media
-        }else{
+        } else {
             return nil
         }
     }
 
     /* centerを中心とした 'side' m四方の空間内に存在するRegionを検索し，返す*/
-    internal func getMediaPlayItem(center : CLLocationCoordinate2D, side : Double) -> MPMediaItem?{
-        
+    internal func getMediaPlayItem(center: CLLocationCoordinate2D, side: Double) -> MPMediaItem? {
         let pi:Double = 3.14159265359
         let globalRadius:Double = 6378150.0
         let metrePerLatitude:Double = 2.0*pi*globalRadius/360.0
@@ -105,19 +97,19 @@ class PlayRouteManager{
         let topLatitude = center.latitude + (side/2.0)/metrePerLatitude
         let rightLongitude = center.longitude - (side/2.0)/metrePerLongitude
         let leftLongitude = center.longitude + (side/2.0)/metrePerLongitude
-        
+
         let format = "latitude >= %f AND latitude <= %f AND longitude >= %f AND longitude <= %f"
         let playroutes = fetchRequestToPlayRoute(NSPredicate(format:format,bottomLatitude,topLatitude,rightLongitude,leftLongitude))
 
         if playroutes?.count > 0 {
             // FIXME: 先頭要素を返す．煮詰める必要アリ
             return playroutes![0].media
-        }else{
+        } else {
             return nil
         }
     }
-    
-    internal func setPlayRoute(region : CLCircularRegion, media : MPMediaItem,  userName : String) -> Bool{
+
+    internal func setPlayRoute(region: CLCircularRegion, media: MPMediaItem,  userName: String) -> Bool {
         let playroute = NSEntityDescription.insertNewObjectForEntityForName("PlayRoute", inManagedObjectContext: managedObjectContext!) as PlayRoute
         playroute.media = media
         playroute.userName = userName
@@ -125,7 +117,7 @@ class PlayRouteManager{
         playroute.timestamp = NSDate()
         playroute.latitude = region.center.latitude
         playroute.longitude = region.center.longitude
-        
+
         var savingError: NSError?
         if !managedObjectContext!.save(&savingError){
             // FIXME: エラーハンドリングができてないので要修正
@@ -136,19 +128,19 @@ class PlayRouteManager{
         }
         return true
     }
-    
-    private func fetchRequestToPlayRoute(predicate : NSPredicate?)->[PlayRoute]?{
+
+    private func fetchRequestToPlayRoute(predicate: NSPredicate?) -> [PlayRoute]? {
         let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
         var requestError: NSError?
-        
-        fetchRequest.returnsObjectsAsFaults = false;
+
+        fetchRequest.returnsObjectsAsFaults = false
         fetchRequest.predicate = predicate?
-        
+
         let playroutes = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError) as [PlayRoute]?
        
         if playroutes?.count > 0 {
             return playroutes!
-        }else{
+        } else {
             return nil
         }
     }
@@ -159,14 +151,14 @@ class PlayRouteManager{
         // The directory the application uses to store the Core Data store file. This code uses a directory named "sadp.CoreDataTest" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1] as NSURL
-        }()
+    }()
     
     private lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
         let modelURL = NSBundle.mainBundle().URLForResource("Model", withExtension: "momd")!
         return NSManagedObjectModel(contentsOfURL: modelURL)!
-        }()
-    
+    }()
+
     private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
@@ -192,8 +184,8 @@ class PlayRouteManager{
         }
         
         return coordinator
-        }()
-    
+    }()
+
     private lazy var managedObjectContext: NSManagedObjectContext? = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
@@ -203,11 +195,10 @@ class PlayRouteManager{
         var managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
-        }()
-    
+    }()
+
     // MARK: - Core Data Saving support
-    
-    private func saveContext () {
+    private func saveContext() {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
             if moc.hasChanges && !moc.save(&error) {
