@@ -152,6 +152,29 @@ class PlayRouteManager{
             return nil
         }
     }
+    
+    internal func delPlayRoute(media : MPMediaItem,center : CLLocationCoordinate2D) -> Bool{
+        let fetchRequest = NSFetchRequest(entityName: "PlayRoute")
+        var requestError: NSError?
+        let format = "media = %@ AND latitude = %f AND longitude = %f"
+        fetchRequest.predicate = NSPredicate(format: format,media,center.latitude,center.longitude)
+        let objs = managedObjectContext!.executeFetchRequest(fetchRequest, error: &requestError)
+        if objs?.count > 0 {
+            for obj in objs! {
+                managedObjectContext?.deleteObject(obj as NSManagedObject)
+            }
+        }
+
+        var savingError: NSError?
+        if !managedObjectContext!.save(&savingError){
+            // FIXME: エラーハンドリングができてないので要修正
+            if let error = savingError{
+                println("Failed to save deleted playroute. Error = \(error)")
+            }
+            return false
+        }
+        return true
+    }
 
     // MARK: - Core Data stack
 
