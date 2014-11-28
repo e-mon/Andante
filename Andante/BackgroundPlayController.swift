@@ -37,7 +37,6 @@ class BackgroundPlayController: NSObject, CLLocationManagerDelegate {
     }
 
     internal func stopUpdatingLocation() {
-        self.systemMusicPlayer.stop()
         self.locationManager.stopUpdatingLocation()
     }
 
