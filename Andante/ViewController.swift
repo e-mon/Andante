@@ -31,7 +31,15 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
     private var recordIcon: UIImage!
     private var stopIcon: UIImage!
 
-    private let positionIcon: UIImage! = UIImage(named: "PositionIcon")
+    private lazy var currentPositionButton: UIButton! = {
+        let button = UIButton()
+        button.tag = 4
+        button.frame = CGRectMake(0, 0, 128, 128)
+        button.layer.position = CGPoint(x: self.view.frame.width/2 + 120, y: 530)
+        button.setImage(UIImage(named: "PositionIcon"), forState: .Normal)
+        button.addTarget(self, action: "PositionIconTapped:", forControlEvents: .TouchUpInside)
+        return button
+    }()
 
     // 0:PlayMode 1:RecordMode 2:StopMode 良くない書き方
     private var state = 2
@@ -59,14 +67,8 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         self.view.addSubview(self.mapView)
         self.view.sendSubviewToBack(self.mapView)
 
-        // 現在地ボタン
-        let imageButton = UIButton()
-        imageButton.tag = 4
-        imageButton.frame = CGRectMake(0, 0, 128, 128)
-        imageButton.layer.position = CGPoint(x: self.view.frame.width/2+120, y:530)
-        imageButton.setImage(self.positionIcon, forState: .Normal)
-        imageButton.addTarget(self, action: "PositionIconTapped:", forControlEvents:.TouchUpInside)
-        self.view.addSubview(imageButton)
+        // 現在地ボタンをViewに追加
+        self.view.addSubview(self.currentPositionButton)
 
         // SphereMenuUI
         self.menuIcon = UIImage(named: "StopIcon-on")
