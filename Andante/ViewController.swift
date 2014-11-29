@@ -51,7 +51,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         // 位置情報の取得が許可されているか確認し、されていなければ許可を求める
         let locationManager = CLLocationManager()
         let status = CLLocationManager.authorizationStatus()
-        if(status == CLAuthorizationStatus.NotDetermined) {
+        if status == CLAuthorizationStatus.NotDetermined {
             locationManager.requestAlwaysAuthorization();
         }
 
@@ -133,8 +133,6 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
             //アートワークのデザインを角丸に設定
             anView.image = Toucan(image: cpa.media.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
         } else {
-            
-            println("no artwork")
             let Noimage = UIImage(named: "NoArtwork")? as UIImage!
             anView.image = Toucan(image: Noimage).maskWithRoundedRect(cornerRadius: 10).image
         }
@@ -202,7 +200,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
                 self.stopIcon = UIImage(named: "StopIcon-off")
 
                 var images:[UIImage] = [self.playIcon!, self.recordIcon!, self.stopIcon!]
-                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2+120, 460), startImage: self.menuIcon!, submenuImages:images)
+                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2 + 120, 460), startImage: self.menuIcon!, submenuImages: images)
                 menu.delegate = self
                 self.view.addSubview(menu)
 
@@ -219,7 +217,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
                 self.stopIcon = UIImage(named: "StopIcon-off")
 
                 var images:[UIImage] = [self.playIcon!, self.recordIcon!, self.stopIcon!]
-                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2+120, 460), startImage: self.menuIcon!, submenuImages:images)
+                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2 + 120, 460), startImage: self.menuIcon!, submenuImages: images)
                 menu.delegate = self
                 self.view.addSubview(menu)
 
@@ -236,7 +234,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
                 self.stopIcon = UIImage(named: "StopIcon-on")
 
                 var images:[UIImage] = [self.playIcon!, self.recordIcon!, self.stopIcon!]
-                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2+120, 460), startImage: self.menuIcon!, submenuImages:images)
+                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2 + 120, 460), startImage: self.menuIcon!, submenuImages: images)
                 menu.delegate = self
                 self.view.addSubview(menu)
 
