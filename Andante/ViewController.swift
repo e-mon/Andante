@@ -21,15 +21,23 @@ private class CustomPointAnnotation: MKPointAnnotation {
 
 class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, BackgroundRecDelegate {
     @IBOutlet private weak var mapView: MKMapView!
+    private var modeMenu: SphereMenu!
 
     private let backgroundPlayController = BackgroundPlayController()
     private let backgroundRecController = BackgroundRecController()
     private let playRouteManager = PlayRouteManager()
 
-    private var menuIcon: UIImage!
-    private var playIcon: UIImage!
-    private var recordIcon: UIImage!
-    private var stopIcon: UIImage!
+    private lazy var uiImages: [String: UIImage] = {
+        let images = [
+            "StopIcon-on": UIImage(named: "StopIcon-on")!,
+            "StopIcon-off": UIImage(named: "StopIcon-off")!,
+            "PlayIcon-on": UIImage(named: "PlayIcon-on")!,
+            "PlayIcon-off": UIImage(named: "PlayIcon-off")!,
+            "RecordIcon-on": UIImage(named: "RecordIcon-on")!,
+            "RecordIcon-off": UIImage(named: "RecordIcon-off")!
+        ]
+        return images
+    }()
 
     private lazy var currentPositionButton: UIButton! = {
         let button = UIButton()
@@ -70,16 +78,10 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         // 現在地ボタンをViewに追加
         self.view.addSubview(self.currentPositionButton)
 
-        // SphereMenuUI
-        self.menuIcon = UIImage(named: "StopIcon-on")
-        self.playIcon = UIImage(named: "PlayIcon-off")
-        self.recordIcon = UIImage(named: "RecordIcon-off")
-        self.stopIcon = UIImage(named: "StopIcon-on")
-
-        let images: [UIImage] = [self.playIcon!, self.recordIcon!, self.stopIcon!]
-        let menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2+120, 460), startImage: self.menuIcon!, submenuImages:images)
-        menu.delegate = self
-        self.view.addSubview(menu)
+        // モード切り替えメニューをViewに追加
+        let start: UIImage! = self.uiImages["StopIcon-on"]
+        let images: [UIImage] = [self.uiImages["PlayIcon-off"]!, self.uiImages["RecordIcon-off"]!, self.uiImages["StopIcon-on"]!]
+        self.addModeMenu(startImage: start, submenuImages: images)
     }
 
     // 画面が表示された後に呼び出される
@@ -98,6 +100,16 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
 
     internal func PositionIconTapped(sender: UIButton){
         self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
+    }
+
+    private func addModeMenu(#startImage: UIImage, submenuImages: [UIImage]) {
+        // FIXME: モード切り替えのたびにSphereMenuを再生成してしまっている
+        //        SphereMenuの仕様上、アイコン画像をうまいこと変えるのが難しいのでこうなっているが
+        //        メモリ管理上は良くないし、何度も切り替えるとボタンに微妙な影がつくので、どうにかしたい
+        let point = CGPointMake(self.view.frame.width/2 + 120, 460)
+        self.modeMenu = SphereMenu(startPoint: point, startImage: startImage, submenuImages: submenuImages)
+        self.modeMenu.delegate = self
+        self.view.addSubview(self.modeMenu)
     }
 
     /* ************************* */
@@ -188,61 +200,38 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
     /* ************************** */
 
     internal func sphereDidSelected(index: Int) {
-        println("index = \(index)")
-        // ひよコードです
+        if self.state == index {
+            return
+        }
+
         switch index {
         case 0:
-            if state != 0 {
-                println("Play")
-                self.menuIcon = UIImage(named: "PlayIcon-on")
-                self.playIcon = UIImage(named: "PlayIcon-on")
-                self.recordIcon = UIImage(named: "RecordIcon-off")
-                self.stopIcon = UIImage(named: "StopIcon-off")
+            let start: UIImage = self.uiImages["PlayIcon-on"]!
+            let images: [UIImage] = [self.uiImages["PlayIcon-on"]!, self.uiImages["RecordIcon-off"]!, self.uiImages["StopIcon-off"]!]
+            self.addModeMenu(startImage: start, submenuImages: images)
 
-                var images:[UIImage] = [self.playIcon!, self.recordIcon!, self.stopIcon!]
-                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2 + 120, 460), startImage: self.menuIcon!, submenuImages: images)
-                menu.delegate = self
-                self.view.addSubview(menu)
+            self.backgroundRecController.stopUpdateLocation()
+            self.backgroundPlayController.startUpdatingLocation()
+            self.state = 0
 
-                self.backgroundRecController.stopUpdateLocation()
-                self.backgroundPlayController.startUpdatingLocation()
-                state = 0
-            }
         case 1:
-            if state != 1 {
-                println("Record")
-                self.menuIcon = UIImage(named: "RecordIcon-on")
-                self.playIcon = UIImage(named: "PlayIcon-off")
-                self.recordIcon = UIImage(named: "RecordIcon-on")
-                self.stopIcon = UIImage(named: "StopIcon-off")
+            let start: UIImage = self.uiImages["RecordIcon-on"]!
+            let images: [UIImage] = [self.uiImages["PlayIcon-off"]!, self.uiImages["RecordIcon-on"]!, self.uiImages["StopIcon-off"]!]
+            self.addModeMenu(startImage: start, submenuImages: images)
 
-                var images:[UIImage] = [self.playIcon!, self.recordIcon!, self.stopIcon!]
-                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2 + 120, 460), startImage: self.menuIcon!, submenuImages: images)
-                menu.delegate = self
-                self.view.addSubview(menu)
+            self.backgroundPlayController.stopUpdatingLocation()
+            self.backgroundRecController.startUpdateLocation()
+            self.state = 1
 
-                self.backgroundPlayController.stopUpdatingLocation()
-                self.backgroundRecController.startUpdateLocation()
-                state = 1
-            }
         case 2:
-            if state != 2 {
-                println("Stop")
-                self.menuIcon = UIImage(named: "StopIcon-on")
-                self.playIcon = UIImage(named: "PlayIcon-off")
-                self.recordIcon = UIImage(named: "RecordIcon-off")
-                self.stopIcon = UIImage(named: "StopIcon-on")
+            let start: UIImage = self.uiImages["StopIcon-on"]!
+            let images: [UIImage] = [self.uiImages["PlayIcon-off"]!, self.uiImages["RecordIcon-off"]!, self.uiImages["StopIcon-on"]!]
+            self.addModeMenu(startImage: start, submenuImages: images)
 
-                var images:[UIImage] = [self.playIcon!, self.recordIcon!, self.stopIcon!]
-                var menu = SphereMenu(startPoint: CGPointMake(self.view.frame.width/2 + 120, 460), startImage: self.menuIcon!, submenuImages: images)
-                menu.delegate = self
-                self.view.addSubview(menu)
+            self.backgroundPlayController.stopUpdatingLocation()
+            self.backgroundRecController.stopUpdateLocation()
+            state = 2
 
-                self.backgroundPlayController.stopUpdatingLocation()
-                self.backgroundRecController.stopUpdateLocation()
-                state = 2
-            }
-            
         default:
             break
         }
