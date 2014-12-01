@@ -12,14 +12,12 @@ import MapKit
 import MediaPlayer
 
 
-// アートワーク表示用に、MKPointAnnotationをカスタムしたクラスを宣言
 private class CustomPointAnnotation: MKPointAnnotation {
     var media: MPMediaItem!
     var overlay : MKOverlay!
 }
 
 
-// 各モードを表す
 private enum AppMode: Int {
     case Playing = 0
     case Recording = 1
@@ -59,50 +57,39 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
 
     private var currentMode = AppMode.Stopped
 
-    // 起動時に現在地を画面中央に表示する。初回ロード時のみ呼び出される
     override internal func viewDidLoad() {
         super.viewDidLoad()
 
-        // 位置情報の取得が許可されているか確認し、されていなければ許可を求める
         let locationManager = CLLocationManager()
         let status = CLLocationManager.authorizationStatus()
         if status == CLAuthorizationStatus.NotDetermined {
             locationManager.requestAlwaysAuthorization();
         }
 
-        // delegateの設定
         self.backgroundRecController.delegate = self
         self.mapView.delegate = self
 
-        //自分の位置を画面中央に表示
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
 
-        // MapViewをViewに追加して再背面へ
         self.view.addSubview(self.mapView)
         self.view.sendSubviewToBack(self.mapView)
 
-        // 現在地ボタンをViewに追加
         self.view.addSubview(self.currentPositionButton)
 
-        // モード切り替えメニューをViewに追加
         let start: UIImage! = self.uiImages["StopIcon-on"]
         let images: [UIImage] = [self.uiImages["PlayIcon-off"]!, self.uiImages["RecordIcon-off"]!, self.uiImages["StopIcon-on"]!]
         self.addModeMenu(startImage: start, submenuImages: images)
     }
 
-    // 画面が表示された後に呼び出される
     override internal func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
 
-        // マップにアートワークを表示する
         self.showSongInfo()
     }
 
-    // メモリ警告が発生した場合の処理
     override internal func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     internal func PositionIconTapped(sender: UIButton){
@@ -194,10 +181,8 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
 
     internal func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         let renderer = MKCircleRenderer(overlay: overlay)
-        // 淵の色
-        renderer.strokeColor = UIColor.orangeColor().colorWithAlphaComponent(1)
         renderer.lineWidth = 1
-        
+        renderer.strokeColor = UIColor.orangeColor().colorWithAlphaComponent(1)
         renderer.fillColor = UIColor.orangeColor().colorWithAlphaComponent(0.1)
         return renderer
     }
@@ -247,7 +232,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
     /* ***************************** */
 
     internal func showSongInfo() {
-        // TODO: 全てのPlayRoutesを一度に取得するのは重くなる可能性がある
+        // FIXME: 全てのPlayRoutesを一度に取得するのは重くなる可能性がある
         let playRoutes: [PlayRoute]! = self.playRouteManager.getPlayRoutes()
 
         if playRoutes == nil {
@@ -262,11 +247,11 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
             let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
             let circle = MKCircle(centerCoordinate: coordinate, radius: 40.0)
 
-            info.coordinate = coordinate //表示位置
-            info.title = pr.media.title // タイトル「曲名」
-            info.subtitle = pr.media.artist // サブタイトル「アーティスト名」
-            info.media = pr.media           //アートワーク用
-            info.overlay = circle           //再生範囲用
+            info.coordinate = coordinate
+            info.title = pr.media.title
+            info.subtitle = pr.media.artist
+            info.media = pr.media
+            info.overlay = circle
 
             self.mapView.addAnnotation(info)
             self.mapView.addOverlay(circle)
