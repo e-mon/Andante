@@ -19,6 +19,14 @@ private class CustomPointAnnotation: MKPointAnnotation {
 }
 
 
+// 各モードを表す
+private enum AppMode: Int {
+    case Playing = 0
+    case Recording = 1
+    case Stopped = 2
+}
+
+
 class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, BackgroundRecDelegate {
     @IBOutlet private weak var mapView: MKMapView!
     private var modeMenu: SphereMenu!
@@ -49,8 +57,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         return button
     }()
 
-    // 0:PlayMode 1:RecordMode 2:StopMode 良くない書き方
-    private var state = 2
+    private var currentMode = AppMode.Stopped
 
     // 起動時に現在地を画面中央に表示する。初回ロード時のみ呼び出される
     override internal func viewDidLoad() {
@@ -200,40 +207,38 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
     /* ************************** */
 
     internal func sphereDidSelected(index: Int) {
-        if self.state == index {
+        let newMode = AppMode(rawValue: index)
+        if newMode == nil || newMode == currentMode {
             return
         }
 
-        switch index {
-        case 0:
+        switch newMode! {
+        case .Playing:
             let start: UIImage = self.uiImages["PlayIcon-on"]!
             let images: [UIImage] = [self.uiImages["PlayIcon-on"]!, self.uiImages["RecordIcon-off"]!, self.uiImages["StopIcon-off"]!]
             self.addModeMenu(startImage: start, submenuImages: images)
 
             self.backgroundRecController.stopUpdateLocation()
             self.backgroundPlayController.startUpdatingLocation()
-            self.state = 0
+            self.currentMode = .Playing
 
-        case 1:
+        case .Recording:
             let start: UIImage = self.uiImages["RecordIcon-on"]!
             let images: [UIImage] = [self.uiImages["PlayIcon-off"]!, self.uiImages["RecordIcon-on"]!, self.uiImages["StopIcon-off"]!]
             self.addModeMenu(startImage: start, submenuImages: images)
 
             self.backgroundPlayController.stopUpdatingLocation()
             self.backgroundRecController.startUpdateLocation()
-            self.state = 1
+            self.currentMode = .Recording
 
-        case 2:
+        case .Stopped:
             let start: UIImage = self.uiImages["StopIcon-on"]!
             let images: [UIImage] = [self.uiImages["PlayIcon-off"]!, self.uiImages["RecordIcon-off"]!, self.uiImages["StopIcon-on"]!]
             self.addModeMenu(startImage: start, submenuImages: images)
 
             self.backgroundPlayController.stopUpdatingLocation()
             self.backgroundRecController.stopUpdateLocation()
-            state = 2
-
-        default:
-            break
+            self.currentMode = .Stopped
         }
     }
 
