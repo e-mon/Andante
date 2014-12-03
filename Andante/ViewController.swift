@@ -115,34 +115,22 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         if !(annotation is CustomPointAnnotation) {
             return nil
         }
-        
-        let reuseId = "test"
-        var anView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
-        if anView == nil {
-            anView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            anView.canShowCallout = true
-        } else {
-            anView.annotation = annotation
-        }
+
+        let cpa = annotation as CustomPointAnnotation
+
+        let reuseId = "CustomPointAnnotationView"
+        let view = (mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId))!
+
+        view.annotation = cpa
+        view.canShowCallout = true
         let deleteButton = UIButton(frame: CGRectMake(0,0,32,32))
         deleteButton.setImage(UIImage(named : "DeleteIcon"), forState: UIControlState.Normal)
-        anView.rightCalloutAccessoryView = deleteButton
+        view.rightCalloutAccessoryView = deleteButton
 
-        // Set annotation-specific properties **AFTER**
-        // the view is dequeued or created...
-        let cpa = annotation as CustomPointAnnotation
-        
-        //アートワークサイズを32に固定
-        let h = 32
-        let w = 32
-        if cpa.media.artwork != nil {
-            //アートワークのデザインを角丸に設定
-            anView.image = Toucan(image: cpa.media.artwork.imageWithSize(CGSize(width: w,height: h))).maskWithRoundedRect(cornerRadius: 10).image
-        } else {
-            let Noimage = UIImage(named: "NoArtwork")? as UIImage!
-            anView.image = Toucan(image: Noimage).maskWithRoundedRect(cornerRadius: 10).image
-        }
-        return anView
+        let image = cpa.media.artwork?.imageWithSize(CGSize(width: 32, height: 32)) ?? UIImage(named: "NoArtwork")
+        view.image = Toucan(image: image!).maskWithRoundedRect(cornerRadius: 10).image
+
+        return view
     }
 
     internal func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
