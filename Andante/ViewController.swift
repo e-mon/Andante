@@ -18,6 +18,32 @@ private class CustomPointAnnotation: MKPointAnnotation {
 }
 
 
+private class CustomPointAnnotationView: MKAnnotationView {
+    private init!(annotation: CustomPointAnnotation) {
+        super.init(annotation: annotation, reuseIdentifier: "CustomPointAnnotationView")
+
+        self.canShowCallout = true
+        let deleteButton = UIButton(frame: CGRectMake(0,0,32,32))
+        deleteButton.setImage(UIImage(named : "DeleteIcon"), forState: UIControlState.Normal)
+        self.rightCalloutAccessoryView = deleteButton
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setAnnotation(annotation: CustomPointAnnotation) {
+        self.annotation = annotation
+        let image = annotation.media.artwork?.imageWithSize(CGSize(width: 32, height: 32)) ?? UIImage(named: "NoArtwork")
+        self.image = Toucan(image: image!).maskWithRoundedRect(cornerRadius: 10).image
+    }
+}
+
+
 private enum AppMode: Int {
     case Playing = 0
     case Recording = 1
@@ -112,25 +138,15 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
 
     // 画像表示用にaddAnnotationから呼ばれる
     internal func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        if !(annotation is CustomPointAnnotation) {
+        // 将来的に他のannotationを用いる場合、同様にMKAnnotationとMKAnnotationViewのサブクラスを利用する
+        if annotation is CustomPointAnnotation {
+            let custom = annotation as CustomPointAnnotation
+            let view = (mapView.dequeueReusableAnnotationViewWithIdentifier("CustomPointAnnotationView") ?? CustomPointAnnotationView(annotation: custom)) as CustomPointAnnotationView
+            view.setAnnotation(custom)
+            return view
+        } else {
             return nil
         }
-
-        let cpa = annotation as CustomPointAnnotation
-
-        let reuseId = "CustomPointAnnotationView"
-        let view = (mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId))!
-
-        view.annotation = cpa
-        view.canShowCallout = true
-        let deleteButton = UIButton(frame: CGRectMake(0,0,32,32))
-        deleteButton.setImage(UIImage(named : "DeleteIcon"), forState: UIControlState.Normal)
-        view.rightCalloutAccessoryView = deleteButton
-
-        let image = cpa.media.artwork?.imageWithSize(CGSize(width: 32, height: 32)) ?? UIImage(named: "NoArtwork")
-        view.image = Toucan(image: image!).maskWithRoundedRect(cornerRadius: 10).image
-
-        return view
     }
 
     internal func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
