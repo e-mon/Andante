@@ -14,8 +14,19 @@ import MediaPlayer
 
 // FIXME: 1クラス1ファイルの原則に従って別ファイルにする
 private class CustomPointAnnotation: MKPointAnnotation {
-    var media: MPMediaItem!
-    var overlay: MKOverlay!
+    private var media: MPMediaItem!
+    private var overlay: MKOverlay!
+
+    init(playRoute: PlayRoute) {
+        super.init()
+
+        self.coordinate = CLLocationCoordinate2DMake(playRoute.latitude, playRoute.longitude)
+        self.overlay = MKCircle(centerCoordinate: self.coordinate, radius: 40.0)
+
+        self.media = playRoute.media
+        self.title = self.media.title
+        self.subtitle = self.media.artist
+    }
 }
 
 
@@ -243,22 +254,10 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
             return
         }
 
-        for pr in playRoutes {
-            var info: CustomPointAnnotation = CustomPointAnnotation()
-
-            let latitude: CLLocationDegrees = pr.latitude
-            let longitude: CLLocationDegrees = pr.longitude
-            let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
-            let circle = MKCircle(centerCoordinate: coordinate, radius: 40.0)
-
-            info.coordinate = coordinate
-            info.title = pr.media.title
-            info.subtitle = pr.media.artist
-            info.media = pr.media
-            info.overlay = circle
-
-            self.mapView.addAnnotation(info)
-            self.mapView.addOverlay(circle)
+        for playRoute in playRoutes {
+            let annotation = CustomPointAnnotation(playRoute: playRoute)
+            self.mapView.addAnnotation(annotation)
+            self.mapView.addOverlay(annotation.overlay)
         }
     }
 }
