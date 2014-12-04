@@ -195,11 +195,15 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
     }
 
     internal func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
-        let renderer = MKCircleRenderer(overlay: overlay)
-        renderer.lineWidth = 1
-        renderer.strokeColor = UIColor.orangeColor().colorWithAlphaComponent(1)
-        renderer.fillColor = UIColor.orangeColor().colorWithAlphaComponent(0.1)
-        return renderer
+        // FIXME: 本来はCustomPointAnnotation専用のMKOverlayのサブクラスを作って場合分けすべき
+        if overlay is MKCircle {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.lineWidth = 1
+            renderer.strokeColor = UIColor.orangeColor().colorWithAlphaComponent(1)
+            renderer.fillColor = UIColor.orangeColor().colorWithAlphaComponent(0.1)
+            return renderer
+        }
+        return nil
     }
 
     /* ************************** */
