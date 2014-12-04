@@ -12,12 +12,14 @@ import MapKit
 import MediaPlayer
 
 
+// FIXME: 1クラス1ファイルの原則に従って別ファイルにする
 private class CustomPointAnnotation: MKPointAnnotation {
     var media: MPMediaItem!
-    var overlay : MKOverlay!
+    var overlay: MKOverlay!
 }
 
 
+// FIXME: 1クラス1ファイルの原則に従って別ファイルにする
 private class CustomPointAnnotationView: MKAnnotationView {
     private init!(annotation: CustomPointAnnotation) {
         super.init(annotation: annotation, reuseIdentifier: "CustomPointAnnotationView")
@@ -53,6 +55,8 @@ private enum AppMode: Int {
 
 class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, BackgroundRecDelegate {
     @IBOutlet private weak var mapView: MKMapView!
+
+    // FIXME: 理想的にはSphereMenuもStoryboadで配置してOutletにしたい
     private var modeMenu: SphereMenu!
 
     private let backgroundPlayController = BackgroundPlayController()
@@ -71,13 +75,14 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         return images
     }()
 
+    // FIXME: 理想的にはcurrentPositionButtonもStoryboadで配置してOutletにしたい
     private lazy var currentPositionButton: UIButton! = {
         let button = UIButton()
         button.tag = 4
         button.frame = CGRectMake(0, 0, 128, 128)
         button.layer.position = CGPoint(x: self.view.frame.width/2 + 120, y: 530)
         button.setImage(UIImage(named: "PositionIcon"), forState: .Normal)
-        button.addTarget(self, action: "PositionIconTapped:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: "currentPositionButtonTapped:", forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -118,7 +123,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         super.didReceiveMemoryWarning()
     }
 
-    internal func PositionIconTapped(sender: UIButton){
+    internal func currentPositionButtonTapped(sender: UIButton){
         self.mapView.setUserTrackingMode(MKUserTrackingMode.Follow, animated: true)
     }
 
@@ -157,22 +162,19 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
     /* MKMapViewDelegate methods */
     /* ************************* */
 
-    // 画像表示用にaddAnnotationから呼ばれる
     internal func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        // 将来的に他のannotationを用いる場合、同様にMKAnnotationとMKAnnotationViewのサブクラスを利用する
+        // COMMENT: 将来的に他のannotationにも対応できるよう、MKAnnotationのサブクラスによって場合分けする
         if annotation is CustomPointAnnotation {
             let custom = annotation as CustomPointAnnotation
             let view = (mapView.dequeueReusableAnnotationViewWithIdentifier("CustomPointAnnotationView") ?? CustomPointAnnotationView(annotation: custom)) as CustomPointAnnotationView
             view.setAnnotation(custom)
             return view
-        } else {
-            return nil
         }
         return nil
     }
 
     internal func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        // 将来的に他のannotationにも対応できるよう、MKAnnotationのサブクラスによって場合分けする
+        // COMMENT: 将来的に他のannotationにも対応できるよう、MKAnnotationのサブクラスによって場合分けする
         if annotationView is CustomPointAnnotationView {
             if control == annotationView.rightCalloutAccessoryView {
                 let annotation = annotationView.annotation as CustomPointAnnotation
