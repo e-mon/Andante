@@ -132,6 +132,27 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         self.view.addSubview(self.modeMenu)
     }
 
+    private func showPlayRouteDeletionAlert(removeFromMapView mapView: MKMapView, removeAnnotation annotation: CustomPointAnnotation) {
+        let message = "この地点に登録した曲を\n削除しますか？"
+        let controller = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+
+        let deleteHandler = { (action: UIAlertAction!) -> Void in
+            self.playRouteManager.delPlayRoute(annotation.media, center: annotation.coordinate)
+            mapView.removeAnnotation(annotation)
+            mapView.removeOverlay(annotation.overlay)
+        }
+        let deleteAction = UIAlertAction(title: "削除", style: UIAlertActionStyle.Destructive, handler: deleteHandler)
+        controller.addAction(deleteAction)
+
+        let cancelHandler = { (action:UIAlertAction!) -> Void in
+            return
+        }
+        let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.Cancel, handler: cancelHandler)
+        controller.addAction(cancelAction)
+
+        presentViewController(controller, animated: true, completion: nil)
+    }
+
     /* ************************* */
     /* MKMapViewDelegate methods */
     /* ************************* */
@@ -147,40 +168,17 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         } else {
             return nil
         }
+        return nil
     }
 
     internal func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if control != annotationView.rightCalloutAccessoryView {
-            return
+        // 将来的に他のannotationにも対応できるよう、MKAnnotationのサブクラスによって場合分けする
+        if annotationView is CustomPointAnnotationView {
+            if control == annotationView.rightCalloutAccessoryView {
+                let annotation = annotationView.annotation as CustomPointAnnotation
+                self.showPlayRouteDeletionAlert(removeFromMapView: mapView, removeAnnotation: annotation)
+            }
         }
-
-        if !(annotationView.annotation is CustomPointAnnotation) {
-            return
-        }
-
-        // alertViewの生成
-        let message = "この地点に登録した曲を\n削除しますか？"
-        let alertView = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-
-        // 削除アクションの追加
-        let deleteHandler = { (action: UIAlertAction!) -> Void in
-            let cpa = annotationView.annotation as CustomPointAnnotation
-            self.playRouteManager.delPlayRoute(cpa.media, center: annotationView.annotation.coordinate)
-            mapView.removeAnnotation(annotationView.annotation)
-            mapView.removeOverlay(cpa.overlay)
-        }
-        let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Destructive, handler: deleteHandler)
-        alertView.addAction(deleteAction)
-
-        // キャンセルアクションの追加
-        let cancelHandler = { (action:UIAlertAction!) -> Void in
-            println("cancel")
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: cancelHandler)
-        alertView.addAction(cancelAction)
-
-        // alertViewの表示
-        presentViewController(alertView, animated: true, completion: nil)
     }
 
     internal func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
