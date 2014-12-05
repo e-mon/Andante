@@ -13,7 +13,7 @@ import MediaPlayer
 
 
 // FIXME: 1クラス1ファイルの原則に従って別ファイルにする
-private class CustomPointAnnotation: MKPointAnnotation {
+private class PlayRouteAnnotation: MKPointAnnotation {
     private var media: MPMediaItem!
     private var overlay: MKOverlay!
 
@@ -31,9 +31,9 @@ private class CustomPointAnnotation: MKPointAnnotation {
 
 
 // FIXME: 1クラス1ファイルの原則に従って別ファイルにする
-private class CustomPointAnnotationView: MKAnnotationView {
-    private init!(annotation: CustomPointAnnotation) {
-        super.init(annotation: annotation, reuseIdentifier: "CustomPointAnnotationView")
+private class PlayRouteAnnotationView: MKAnnotationView {
+    private init!(annotation: PlayRouteAnnotation) {
+        super.init(annotation: annotation, reuseIdentifier: "PlayRouteAnnotationView")
 
         self.canShowCallout = true
         let deleteButton = UIButton(frame: CGRectMake(0,0,32,32))
@@ -49,7 +49,7 @@ private class CustomPointAnnotationView: MKAnnotationView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setAnnotation(annotation: CustomPointAnnotation) {
+    private func setAnnotation(annotation: PlayRouteAnnotation) {
         self.annotation = annotation
         let image = annotation.media.artwork?.imageWithSize(CGSize(width: 32, height: 32)) ?? UIImage(named: "NoArtwork")
         self.image = Toucan(image: image!).maskWithRoundedRect(cornerRadius: 10).image
@@ -148,7 +148,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         self.view.addSubview(self.modeMenu)
     }
 
-    private func showPlayRouteDeletionAlert(removeFromMapView mapView: MKMapView, removeAnnotation annotation: CustomPointAnnotation) {
+    private func showPlayRouteDeletionAlert(removeFromMapView mapView: MKMapView, removeAnnotation annotation: PlayRouteAnnotation) {
         let message = "この地点に登録した曲を\n削除しますか？"
         let controller = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.Alert)
 
@@ -175,9 +175,9 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
 
     internal func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         // COMMENT: 将来的に他のannotationにも対応できるよう、MKAnnotationのサブクラスによって場合分けする
-        if annotation is CustomPointAnnotation {
-            let custom = annotation as CustomPointAnnotation
-            let view = (mapView.dequeueReusableAnnotationViewWithIdentifier("CustomPointAnnotationView") ?? CustomPointAnnotationView(annotation: custom)) as CustomPointAnnotationView
+        if annotation is PlayRouteAnnotation {
+            let custom = annotation as PlayRouteAnnotation
+            let view = (mapView.dequeueReusableAnnotationViewWithIdentifier("PlayRouteAnnotationView") ?? PlayRouteAnnotationView(annotation: custom)) as PlayRouteAnnotationView
             view.setAnnotation(custom)
             return view
         }
@@ -186,16 +186,16 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
 
     internal func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // COMMENT: 将来的に他のannotationにも対応できるよう、MKAnnotationのサブクラスによって場合分けする
-        if annotationView is CustomPointAnnotationView {
+        if annotationView is PlayRouteAnnotationView {
             if control == annotationView.rightCalloutAccessoryView {
-                let annotation = annotationView.annotation as CustomPointAnnotation
+                let annotation = annotationView.annotation as PlayRouteAnnotation
                 self.showPlayRouteDeletionAlert(removeFromMapView: mapView, removeAnnotation: annotation)
             }
         }
     }
 
     internal func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
-        // FIXME: 本来はCustomPointAnnotation専用のMKOverlayのサブクラスを作って場合分けすべき
+        // FIXME: 本来はPlayRouteAnnotation専用のMKOverlayのサブクラスを作って場合分けすべき
         if overlay is MKCircle {
             let renderer = MKCircleRenderer(overlay: overlay)
             renderer.lineWidth = 1
@@ -259,7 +259,7 @@ class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, B
         }
 
         for playRoute in playRoutes {
-            let annotation = CustomPointAnnotation(playRoute: playRoute)
+            let annotation = PlayRouteAnnotation(playRoute: playRoute)
             self.mapView.addAnnotation(annotation)
             self.mapView.addOverlay(annotation.overlay)
         }
