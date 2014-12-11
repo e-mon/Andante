@@ -12,7 +12,6 @@ import MapKit
 import MediaPlayer
 
 
-// FIXME: 1クラス1ファイルの原則に従って別ファイルにする
 private class PlayRouteAnnotation: MKPointAnnotation {
     private var media: MPMediaItem!
     private var overlay: MKOverlay!
@@ -30,7 +29,6 @@ private class PlayRouteAnnotation: MKPointAnnotation {
 }
 
 
-// FIXME: 1クラス1ファイルの原則に従って別ファイルにする
 private class PlayRouteAnnotationView: MKAnnotationView {
     private init!(annotation: PlayRouteAnnotation) {
         super.init(annotation: annotation, reuseIdentifier: "PlayRouteAnnotationView")
