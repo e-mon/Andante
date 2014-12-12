@@ -62,7 +62,7 @@ private enum AppMode: Int {
 }
 
 
-class ViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, BackgroundRecDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, SphereMenuDelegate, BackgroundRecDelegate {
     @IBOutlet private weak var mapView: MKMapView!
 
     // FIXME: 理想的にはSphereMenuもStoryboadで配置してOutletにしたい
