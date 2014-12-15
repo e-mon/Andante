@@ -48,7 +48,12 @@ class BackgroundRecController: NSObject, CLLocationManagerDelegate {
 
     internal func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         let nowPlayingItem: MPMediaItem! = self.systemMusicPlayer.nowPlayingItem
-
+        let state: MPMusicPlaybackState = self.systemMusicPlayer.playbackState
+        
+        if state != MPMusicPlaybackState.Paused {
+            return
+        }
+        
         if nowPlayingItem == nil {
             return
         }
